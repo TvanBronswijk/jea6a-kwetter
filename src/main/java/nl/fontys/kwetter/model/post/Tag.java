@@ -1,6 +1,7 @@
 package nl.fontys.kwetter.model.post;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -8,8 +9,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Tag {
     @Id
+    @GeneratedValue
     private Long Id;
     private String name;
+
+    public Tag() {
+    }
+
+    public Tag(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return Id;

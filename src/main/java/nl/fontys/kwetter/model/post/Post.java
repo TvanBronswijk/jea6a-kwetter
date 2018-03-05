@@ -11,13 +11,24 @@ import java.util.Date;
 @XmlRootElement
 public class Post {
     @Id
+    @GeneratedValue
     private Long Id;
     @ManyToOne
     private User user;
     private String content;
     private Date timestamp;
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.PERSIST)
     private Collection<Tag> tags;
+
+    public Post() {
+    }
+
+    public Post(User user, String content, Date timestamp, Collection<Tag> tags) {
+        this.user = user;
+        this.content = content;
+        this.timestamp = timestamp;
+        this.tags = tags;
+    }
 
     public Long getId() {
         return Id;

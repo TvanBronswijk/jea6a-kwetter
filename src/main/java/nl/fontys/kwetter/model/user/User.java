@@ -4,10 +4,12 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@Table(name="KWETTERUSERS")
 @XmlRootElement
 public class User {
 
     @Id
+    @GeneratedValue
     private Long Id;
     @Column(unique=true)
     private String username;
@@ -17,6 +19,17 @@ public class User {
     private Role role;
     @OneToOne
     private UserDetails userDetails;
+
+    public User() {
+    }
+
+    public User(String username, String password, String email, Role role, UserDetails userDetails) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.userDetails = userDetails;
+    }
 
     public Long getId() {
         return Id;

@@ -7,12 +7,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class UserDetails {
     @Id
+    @GeneratedValue
     private Long Id;
     private String Name;
     private String ImageURL;
     private String Location;
     private String Bio;
     private String Web;
+
+    public UserDetails() {
+    }
+
+    public UserDetails(String name, String imageURL, String location, String bio, String web) {
+        Name = name;
+        ImageURL = imageURL;
+        Location = location;
+        Bio = bio;
+        Web = web;
+    }
 
     public Long getId() {
         return Id;
