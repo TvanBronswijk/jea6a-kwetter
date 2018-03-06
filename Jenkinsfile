@@ -2,19 +2,24 @@ pipeline {
     agent any
 
     stages {
+        stage('checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Build') {
             steps {
-                echo 'Building..'
+                mvn clean build
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                mvn clean verify
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                echo 'Deploying...'
             }
         }
     }
