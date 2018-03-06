@@ -17,7 +17,7 @@ public class Post {
     private User user;
     private String content;
     private Date timestamp;
-    @ManyToMany(cascade=CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Tag> tags;
 
     public Post() {

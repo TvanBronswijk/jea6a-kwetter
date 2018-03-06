@@ -24,11 +24,10 @@ public class StartUp {
     }
 
     @PostConstruct
-    private void databaseSeed(){
+    private void databaseSeed() {
         Role adminRole = new Role("Administrator");
         userService.createRole(adminRole);
         User adminUser = new User("admin", "admin", "admin@kwetter.nl", adminRole, null);
         userService.createUser(adminUser);
     }
-
 }

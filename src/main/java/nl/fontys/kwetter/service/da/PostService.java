@@ -20,39 +20,39 @@ public class PostService {
     @JPA
     private TagDa tags;
 
-    public void createPost(Post post){
+    public void createPost(Post post) {
         posts.create(post);
     }
 
-    public Post readPost(Long id){
+    public Post readPost(Long id) {
         return posts.read(id);
     }
 
-    public Collection<Post> readAllPosts(){
+    public Collection<Post> readAllPosts() {
         return posts.readAll();
     }
 
-    public void updatePost(Post post){
+    public void updatePost(Post post) {
         posts.update(post);
     }
 
-    public void deletePost(Post post){
+    public void deletePost(Post post) {
         posts.delete(post);
     }
 
-    public void createTag(Tag tag){
+    public void createTag(Tag tag) {
         tags.create(tag);
     }
 
-    public Tag readTag(Long id){
+    public Tag readTag(Long id) {
         return tags.read(id);
     }
 
-    public void updateTag(Tag tag){
+    public void updateTag(Tag tag) {
         tags.update(tag);
     }
 
-    public void deleteTag(Tag tag){
+    public void deleteTag(Tag tag) {
         tags.delete(tag);
     }
 }

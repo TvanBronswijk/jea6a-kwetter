@@ -10,7 +10,7 @@ public abstract class DataAccessBase<T> implements Crud<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public DataAccessBase(Class<T> classObject){
+    public DataAccessBase(Class<T> classObject) {
         this.classObject = classObject;
     }
 

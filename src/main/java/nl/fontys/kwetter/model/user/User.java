@@ -4,14 +4,14 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@Table(name="KWETTERUSERS")
+@Table(name = "KWETTERUSERS")
 @XmlRootElement
 public class User {
 
     @Id
     @GeneratedValue
     private Long Id;
-    @Column(unique=true)
+    @Column(unique = true)
     private String username;
     private String password;
     private String email;

@@ -13,7 +13,7 @@ public class Role {
     @Id
     @GeneratedValue
     private Long Id;
-    @Column(unique=true)
+    @Column(unique = true)
     private String name;
 
     public Role() {

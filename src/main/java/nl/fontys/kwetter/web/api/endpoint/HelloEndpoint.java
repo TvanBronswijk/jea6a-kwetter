@@ -6,7 +6,7 @@ import javax.ws.rs.Path;
 @Path("helloworld")
 public class HelloEndpoint {
     @GET
-    public String ping(){
+    public String ping() {
         return "Hello World!";
     }
 }
