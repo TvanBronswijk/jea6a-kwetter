@@ -29,7 +29,7 @@ public class PostDao extends DataAccessBase<Post> implements PostDa {
 
     @Override
     public Collection<Post> readAll() {
-        Query query = getEntityManager().createQuery("SELECT p FROM dbo.POST p");
+        Query query = getEntityManager().createQuery("SELECT p FROM Post p");
         return query.getResultList();
     }
 }
