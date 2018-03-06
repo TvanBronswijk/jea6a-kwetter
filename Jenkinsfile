@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3-alpine' 
+        }
+    }
 
     stages {
         stage('checkout') {
@@ -9,12 +13,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                mvn clean build
+                sh "mvn clean compile"
             }
         }
         stage('Test') {
             steps {
-                mvn clean verify
+                sh "mvn clean verify"
             }
         }
         stage('Deploy') {
