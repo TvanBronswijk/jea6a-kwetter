@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN"
+        "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <jdbc-connection-pool driver-classname="com.microsoft.sqlserver.jdbc.SQLServerDataSource" name="mssql"
+                          res-type="java.sql.Driver">
+        <property name="Password" value="glassfish"/>
+        <property name="User" value="glassfish"/>
+        <property name="DatabaseName" value="GlassfishDB"/>
+        <property name="Domain" value="dbo"/>
+        <property name="ServerName" value="localhost"/>
+        <property name="Port" value="1433"/>
+    </jdbc-connection-pool>
+    <jdbc-resource pool-name="mssql" jndi-name="jdbc/kwetter"/>
+</resources>
