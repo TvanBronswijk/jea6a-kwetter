@@ -33,9 +33,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             agent {
-                node {
-                    label 'docker'
-                }
+                label 'docker'
             }
             steps {
                 sh "docker build -t fontys/kwetter:latest ."
