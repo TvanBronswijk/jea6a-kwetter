@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine' 
-        }
-    }
+    
 
     stages {
         stage('checkout') {
@@ -11,19 +7,34 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build') {
+        stage('Compile Source Code') {
+            agent {
+                docker {
+                    image 'maven:3-alpine' 
+                }
+            }
             steps {
                 sh "mvn clean compile"
             }
         }
-        stage('Test') {
+        stage('Test Source Code') {
+            agent {
+                docker {
+                    image 'maven:3-alpine' 
+                }
+            }
             steps {
                 sh "mvn clean verify"
             }
         }
-        stage('Deploy') {
+        stage('Build Docker Image') {
+            agent {
+                node {
+                    label 'docker'
+                }
+            }
             steps {
-                echo 'Deploying...'
+                sh "docker build -t fontys/kwetter:latest ."
             }
         }
     }
