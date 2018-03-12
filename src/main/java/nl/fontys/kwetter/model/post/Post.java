@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @XmlRootElement
@@ -18,6 +19,8 @@ public class Post implements Model {
     private User user;
     private String content;
     private Date timestamp;
+    @ManyToMany
+    private List<User> likes;
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Tag> tags;
 
@@ -70,5 +73,13 @@ public class Post implements Model {
 
     public void setTags(Collection<Tag> tags) {
         this.tags = tags;
+    }
+
+    public List<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<User> likes) {
+        this.likes = likes;
     }
 }

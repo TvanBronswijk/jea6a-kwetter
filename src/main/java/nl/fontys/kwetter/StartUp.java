@@ -33,28 +33,30 @@ public class StartUp {
 
     @PostConstruct
     private void initialize() {
-        //Admin User
+        //Roles
         Role adminRole = new Role("Administrator");
         userService.createRole(adminRole);
+        Role userRole = new Role("User");
+        userService.createRole(userRole);
+
+        //Admin User
         User adminUser = new User("admin", "admin", "admin@kwetter.nl", adminRole, null);
         userService.createUser(adminUser);
 
         //First User
-        Role userRole = new Role("User");
-        userService.createRole(userRole);
         UserDetails firstUserDetails = new UserDetails("Original User",
                 null,
                 "The Internet",
                 "I am the first user on Kwetter!",
                 null);
-        userService.createUserDetails(firstUserDetails);
         User firstUser = new User("first", "hunter2", "first@user.nl", userRole, firstUserDetails);
         userService.createUser(firstUser);
 
         //First Post
-        Tag firstTag = new Tag("#first");
-        postService.createTag(firstTag);
-        Post post = new Post(firstUser, "This is the first post on Kwetter! #first", new Date(), new ArrayList<>(Collections.singleton(firstTag)));
+        Post post = new Post(firstUser,
+                "This is the first post on Kwetter! #first",
+                new Date(),
+                new ArrayList<>(Collections.singleton(new Tag("#first"))));
         postService.createPost(post);
     }
 }
