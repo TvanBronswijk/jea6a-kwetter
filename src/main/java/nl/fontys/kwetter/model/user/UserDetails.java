@@ -1,5 +1,7 @@
 package nl.fontys.kwetter.model.user;
 
+import nl.fontys.kwetter.model.Model;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -7,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
-public class UserDetails {
+public class UserDetails implements Model {
     @Id
     @GeneratedValue
     private Long Id;
@@ -28,6 +30,7 @@ public class UserDetails {
         Web = web;
     }
 
+    @Override
     public Long getId() {
         return Id;
     }

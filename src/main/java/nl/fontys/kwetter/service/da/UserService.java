@@ -1,6 +1,5 @@
 package nl.fontys.kwetter.service.da;
 
-import nl.fontys.kwetter.da.JPA.JPA;
 import nl.fontys.kwetter.da.inf.user.RoleDa;
 import nl.fontys.kwetter.da.inf.user.UserDa;
 import nl.fontys.kwetter.da.inf.user.UserDetailsDa;
@@ -10,19 +9,16 @@ import nl.fontys.kwetter.model.user.UserDetails;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import java.util.Collection;
+import java.util.List;
 
 @Stateless
 public class UserService {
 
     @Inject
-    @JPA
     private UserDa users;
     @Inject
-    @JPA
     private RoleDa roles;
     @Inject
-    @JPA
     private UserDetailsDa userDetails;
 
 
@@ -34,7 +30,7 @@ public class UserService {
         return users.read(id);
     }
 
-    public Collection<User> readAllUsers() {
+    public List<User> readAllUsers() {
         return users.readAll();
     }
 
@@ -51,7 +47,7 @@ public class UserService {
     }
 
     public UserDetails readUserDetails(Long id) {
-        return this.userDetails.read(id);
+        return userDetails.read(id);
     }
 
     public void updateUserDetails(UserDetails userDetails) {

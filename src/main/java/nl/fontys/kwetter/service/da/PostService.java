@@ -1,6 +1,5 @@
 package nl.fontys.kwetter.service.da;
 
-import nl.fontys.kwetter.da.JPA.JPA;
 import nl.fontys.kwetter.da.inf.post.PostDa;
 import nl.fontys.kwetter.da.inf.post.TagDa;
 import nl.fontys.kwetter.model.post.Post;
@@ -8,16 +7,14 @@ import nl.fontys.kwetter.model.post.Tag;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import java.util.Collection;
+import java.util.List;
 
 @Stateless
 public class PostService {
 
     @Inject
-    @JPA
     private PostDa posts;
     @Inject
-    @JPA
     private TagDa tags;
 
     public void createPost(Post post) {
@@ -28,7 +25,7 @@ public class PostService {
         return posts.read(id);
     }
 
-    public Collection<Post> readAllPosts() {
+    public List<Post> readAllPosts() {
         return posts.readAll();
     }
 

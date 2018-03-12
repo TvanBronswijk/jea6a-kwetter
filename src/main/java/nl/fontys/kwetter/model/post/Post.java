@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.model.post;
 
+import nl.fontys.kwetter.model.Model;
 import nl.fontys.kwetter.model.user.User;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @XmlRootElement
-public class Post {
+public class Post implements Model {
     @Id
     @GeneratedValue
     private Long Id;
@@ -30,6 +31,7 @@ public class Post {
         this.tags = tags;
     }
 
+    @Override
     public Long getId() {
         return Id;
     }

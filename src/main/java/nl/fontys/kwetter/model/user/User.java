@@ -1,12 +1,14 @@
 package nl.fontys.kwetter.model.user;
 
+import nl.fontys.kwetter.model.Model;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "KWETTERUSERS")
 @XmlRootElement
-public class User {
+public class User implements Model {
 
     @Id
     @GeneratedValue
@@ -31,6 +33,7 @@ public class User {
         this.userDetails = userDetails;
     }
 
+    @Override
     public Long getId() {
         return Id;
     }

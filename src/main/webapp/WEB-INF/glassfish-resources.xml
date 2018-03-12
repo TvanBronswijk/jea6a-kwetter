@@ -8,7 +8,7 @@
         <property name="User" value="sa"/>
         <property name="DatabaseName" value="GlassfishDB"/>
         <property name="Domain" value="dbo"/>
-        <property name="ServerName" value="db"/>
+        <property name="ServerName" value="localhost"/>
         <property name="Port" value="1433"/>
     </jdbc-connection-pool>
     <jdbc-resource pool-name="mssql" jndi-name="jdbc/kwetter"/>

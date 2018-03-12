@@ -1,36 +1,36 @@
 package nl.fontys.kwetter.da.JPA;
 
-import nl.fontys.kwetter.da.inf.Crud;
+import nl.fontys.kwetter.model.Model;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-public abstract class DataAccessBase<T> implements Crud<T> {
+@Stateless
+public abstract class DataAccessBase<T extends Model> {
 
-    private Class<T> classObject;
+    @PersistenceContext
+    protected EntityManager entityManager;
 
-    protected abstract EntityManager getEntityManager();
+    private final Class<T> classObject;
 
     public DataAccessBase(Class<T> classObject) {
         this.classObject = classObject;
     }
 
-    @Override
     public void create(T entity) {
-        getEntityManager().persist(entity);
+        entityManager.persist(entity);
     }
 
-    @Override
-    public T read(Object id) {
-        return getEntityManager().find(classObject, id);
+    public T read(Long id) {
+        return entityManager.find(classObject, id);
     }
 
-    @Override
     public void update(T entity) {
-        getEntityManager().merge(entity);
+        entityManager.merge(entity);
     }
 
-    @Override
     public void delete(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+        entityManager.remove(entityManager.merge(entity));
     }
 }
