@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("")
+@Path("user")
 @Stateless
 public class UserEndpoint {
 
@@ -20,16 +20,16 @@ public class UserEndpoint {
     private UserService userService;
 
     @GET
-    @Path("users")
+    @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> get() {
+    public List<User> getAllUsers() {
         return userService.readAllUsers();
     }
 
     @GET
-    @Path("user/{id}")
+    @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User getSingle(@PathParam("id") Long id) {
+    public User getSingleUser(@PathParam("id") Long id) {
         return userService.readUser(id);
     }
 }

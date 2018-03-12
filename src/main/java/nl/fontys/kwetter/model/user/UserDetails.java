@@ -4,6 +4,7 @@ import nl.fontys.kwetter.model.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -11,71 +12,71 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class UserDetails implements Model {
     @Id
-    @GeneratedValue
-    private Long Id;
-    private String Name;
-    private String ImageURL;
-    private String Location;
-    private String Bio;
-    private String Web;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private String imageURL;
+    private String location;
+    private String bio;
+    private String web;
 
     public UserDetails() {
     }
 
     public UserDetails(String name, String imageURL, String location, String bio, String web) {
-        Name = name;
-        ImageURL = imageURL;
-        Location = location;
-        Bio = bio;
-        Web = web;
+        this.name = name;
+        this.imageURL = imageURL;
+        this.location = location;
+        this.bio = bio;
+        this.web = web;
     }
 
     @Override
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getImageURL() {
-        return ImageURL;
+        return imageURL;
     }
 
     public void setImageURL(String imageURL) {
-        ImageURL = imageURL;
+        this.imageURL = imageURL;
     }
 
     public String getLocation() {
-        return Location;
+        return location;
     }
 
     public void setLocation(String location) {
-        Location = location;
+        this.location = location;
     }
 
     public String getBio() {
-        return Bio;
+        return bio;
     }
 
     public void setBio(String bio) {
-        Bio = bio;
+        this.bio = bio;
     }
 
     public String getWeb() {
-        return Web;
+        return web;
     }
 
     public void setWeb(String web) {
-        Web = web;
+        this.web = web;
     }
 }

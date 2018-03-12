@@ -12,8 +12,8 @@ import java.util.Date;
 @XmlRootElement
 public class Post implements Model {
     @Id
-    @GeneratedValue
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @ManyToOne
     private User user;
     private String content;
@@ -33,11 +33,11 @@ public class Post implements Model {
 
     @Override
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public User getUser() {

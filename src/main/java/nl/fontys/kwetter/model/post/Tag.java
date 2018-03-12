@@ -4,6 +4,7 @@ import nl.fontys.kwetter.model.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -11,8 +12,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Tag implements Model {
     @Id
-    @GeneratedValue
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
 
     public Tag() {
@@ -24,11 +25,11 @@ public class Tag implements Model {
 
     @Override
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {

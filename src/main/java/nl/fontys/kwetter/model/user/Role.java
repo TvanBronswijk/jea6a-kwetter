@@ -2,10 +2,7 @@ package nl.fontys.kwetter.model.user;
 
 import nl.fontys.kwetter.model.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -13,8 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Role implements Model {
 
     @Id
-    @GeneratedValue
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(unique = true)
     private String name;
 
@@ -27,11 +24,11 @@ public class Role implements Model {
 
     @Override
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {

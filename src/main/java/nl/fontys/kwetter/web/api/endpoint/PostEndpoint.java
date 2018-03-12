@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("")
+@Path("post")
 @Stateless
 public class PostEndpoint {
 
@@ -20,16 +20,16 @@ public class PostEndpoint {
     private PostService postService;
 
     @GET
-    @Path("posts")
+    @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Post> get() {
+    public List<Post> getAllPosts() {
         return postService.readAllPosts();
     }
 
     @GET
-    @Path("post/{id}")
+    @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Post getSingle(@PathParam("id") Long id) {
+    public Post getSinglePost(@PathParam("id") Long id) {
         return postService.readPost(id);
     }
 }

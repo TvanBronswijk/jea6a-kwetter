@@ -11,8 +11,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class User implements Model {
 
     @Id
-    @GeneratedValue
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(unique = true)
     private String username;
     private String password;
@@ -35,11 +35,11 @@ public class User implements Model {
 
     @Override
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getUsername() {
