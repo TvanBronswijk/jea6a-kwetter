@@ -4,7 +4,7 @@ import nl.fontys.kwetter.model.Model;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
+import java.util.Collection;
 
 @Entity
 @Table(name = "KWETTERUSERS")
@@ -23,7 +23,7 @@ public class User implements Model {
     @OneToOne(cascade = CascadeType.PERSIST)
     private UserDetails userDetails;
     @ManyToMany
-    private List<User> follow;
+    private Collection<User> follow;
 
     public User() {
     }
@@ -85,11 +85,15 @@ public class User implements Model {
         this.userDetails = userDetails;
     }
 
-    public List<User> getFollow() {
+    public Collection<User> getFollow() {
         return follow;
     }
 
-    public void setFollow(List<User> follow) {
+    public void setFollow(Collection<User> follow) {
         this.follow = follow;
+    }
+
+    public void follow(User follower) {
+        follow.add(follower);
     }
 }

@@ -7,7 +7,6 @@
 package nl.fontys.kwetter;
 
 import nl.fontys.kwetter.model.post.Post;
-import nl.fontys.kwetter.model.post.Tag;
 import nl.fontys.kwetter.model.user.Role;
 import nl.fontys.kwetter.model.user.User;
 import nl.fontys.kwetter.model.user.UserDetails;
@@ -18,8 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 @Singleton
@@ -56,7 +53,7 @@ public class StartUp {
         Post post = new Post(firstUser,
                 "This is the first post on Kwetter! #first",
                 new Date(),
-                new ArrayList<>(Collections.singleton(new Tag("#first"))));
+                null);
         postService.createPost(post);
     }
 }

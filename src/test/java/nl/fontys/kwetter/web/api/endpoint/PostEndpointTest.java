@@ -2,8 +2,7 @@ package nl.fontys.kwetter.web.api.endpoint;
 
 import nl.fontys.kwetter.model.post.Post;
 import org.junit.Test;
-
-import java.util.Date;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import static com.jayway.restassured.RestAssured.given;
 
@@ -11,35 +10,34 @@ public class PostEndpointTest {
 
     @Test
     public void restPostTest() {
-        //create a User
-        Post newPost = new Post(null, "test", new Date(), null);
-        given().body(newPost)
+        //create a Post
+        Post newPost = new Post(null, "test", null, null);
+        given().contentType("application/json").
+                body(newPost)
                 .when()
-                .put("kwetter/api/post")
+                .post("kwetter/api/post")
                 .then()
                 .statusCode(200);
 
-        //get user
+        //get Post
         given().when()
                 .get("kwetter/api/post/1")
                 .then()
                 .statusCode(200);
 
-        //update existing user
-        Post updatePost = new Post(null, "test2", new Date(), null);
+        //update existing Post
+        Post updatePost = new Post(null, "test2", null, null);
         updatePost.setId(1L);
-        given().body(updatePost)
+        given().contentType("application/json")
+                .body(updatePost)
                 .when()
                 .put("kwetter/api/post")
                 .then()
                 .statusCode(200);
 
-        //remove user
-        Post removePost = new Post();
-        removePost.setId(1L);
-        given().body(removePost)
-                .when()
-                .delete("kwetter/api/post")
+        //remove Post
+        given().when()
+                .delete("kwetter/api/post/{id}", 1L)
                 .then()
                 .statusCode(200);
 
@@ -49,5 +47,15 @@ public class PostEndpointTest {
                 .get("kwetter/api/post/all")
                 .then()
                 .statusCode(200);
+    }
+
+    @Test
+    public void likeTest() {
+        throw new NotImplementedException();
+    }
+
+    @Test
+    public void byUserTest() {
+        throw new NotImplementedException();
     }
 }

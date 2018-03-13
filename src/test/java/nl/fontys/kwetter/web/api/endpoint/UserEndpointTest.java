@@ -2,6 +2,7 @@ package nl.fontys.kwetter.web.api.endpoint;
 
 import nl.fontys.kwetter.model.user.User;
 import org.junit.Test;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import static com.jayway.restassured.RestAssured.given;
 
@@ -11,9 +12,10 @@ public class UserEndpointTest {
     public void restUserTest() {
         //create a User
         User newUser = new User("test", "test", "test@test.nl", null, null);
-        given().body(newUser)
+        given().contentType("application/json")
+                .body(newUser)
                 .when()
-                .put("kwetter/api/user")
+                .post("kwetter/api/user")
                 .then()
                 .statusCode(200);
 
@@ -26,18 +28,16 @@ public class UserEndpointTest {
         //update existing user
         User updateUser = new User("test2", "test", "test@test.nl", null, null);
         updateUser.setId(1L);
-        given().body(updateUser)
+        given().contentType("application/json")
+                .body(updateUser)
                 .when()
                 .put("kwetter/api/user")
                 .then()
                 .statusCode(200);
 
         //remove user
-        User removeUser = new User();
-        removeUser.setId(1L);
-        given().body(removeUser)
-                .when()
-                .delete("kwetter/api/user")
+        given().when()
+                .delete("kwetter/api/user/{id}", 1L)
                 .then()
                 .statusCode(200);
 
@@ -47,5 +47,15 @@ public class UserEndpointTest {
                 .get("kwetter/api/user/all")
                 .then()
                 .statusCode(200);
+    }
+
+    @Test
+    public void followTest() {
+        throw new NotImplementedException();
+    }
+
+    @Test
+    public void detailsTest() {
+        throw new NotImplementedException();
     }
 }

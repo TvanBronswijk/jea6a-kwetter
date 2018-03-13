@@ -19,4 +19,11 @@ public class PostDao extends DataAccessBase<Post> implements PostDa {
         Query query = entityManager.createQuery("SELECT p FROM Post p");
         return query.getResultList();
     }
+
+    @Override
+    public List<Post> readByUserId(Long userId) {
+        Query query = entityManager.createQuery("SELECT p FROM Post p WHERE p.user.id = :user_id");
+        query.setParameter("user_id", userId);
+        return query.getResultList();
+    }
 }

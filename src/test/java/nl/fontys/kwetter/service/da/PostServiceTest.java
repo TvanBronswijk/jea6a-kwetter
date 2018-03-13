@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -52,6 +53,16 @@ public class PostServiceTest {
         //Delete Post
         postService.deletePost(object);
         assertThat(postService.readAllPosts().size(), is(0));
+    }
+
+    @Test
+    public void testPostLike() {
+        throw new NotImplementedException();
+    }
+
+    @Test
+    public void testPostByUser() {
+        throw new NotImplementedException();
     }
 
     @Test
