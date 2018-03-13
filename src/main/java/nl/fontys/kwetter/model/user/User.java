@@ -22,7 +22,7 @@ public class User implements Model {
     private Role role;
     @OneToOne(cascade = CascadeType.PERSIST)
     private UserDetails userDetails;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private Collection<User> follow;
 
     public User() {

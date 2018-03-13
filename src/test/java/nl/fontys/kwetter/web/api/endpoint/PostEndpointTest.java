@@ -1,8 +1,8 @@
 package nl.fontys.kwetter.web.api.endpoint;
 
 import nl.fontys.kwetter.model.post.Post;
+import nl.fontys.kwetter.model.user.User;
 import org.junit.Test;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import static com.jayway.restassured.RestAssured.given;
 
@@ -22,6 +22,22 @@ public class PostEndpointTest {
         //get Post
         given().when()
                 .get("kwetter/api/post/1")
+                .then()
+                .statusCode(200);
+
+        //Like Post
+        User user = new User();
+        user.setId(1L);
+        given().contentType("application/json").
+                body(user)
+                .when()
+                .put("kwetter/api/post/1/like")
+                .then()
+                .statusCode(200);
+
+        //Find By User
+        given().when()
+                .get("kwetter/api/post/user/1")
                 .then()
                 .statusCode(200);
 
@@ -47,15 +63,5 @@ public class PostEndpointTest {
                 .get("kwetter/api/post/all")
                 .then()
                 .statusCode(200);
-    }
-
-    @Test
-    public void likeTest() {
-        throw new NotImplementedException();
-    }
-
-    @Test
-    public void byUserTest() {
-        throw new NotImplementedException();
     }
 }

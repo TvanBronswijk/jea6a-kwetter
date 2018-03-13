@@ -4,14 +4,15 @@ import nl.fontys.kwetter.da.inf.post.PostDa;
 import nl.fontys.kwetter.da.inf.post.TagDa;
 import nl.fontys.kwetter.model.post.Post;
 import nl.fontys.kwetter.model.post.Tag;
+import nl.fontys.kwetter.model.user.User;
 import nl.fontys.kwetter.service.da.memory.post.PostList;
 import nl.fontys.kwetter.service.da.memory.post.TagList;
+import nl.fontys.kwetter.service.helper.TagParser;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -23,6 +24,8 @@ public class PostServiceTest {
     private final PostDa postDa = new PostList();
     @Spy
     private final TagDa tagDa = new TagList();
+    @Spy
+    private final TagParser tagParser = new TagParser();
 
     @InjectMocks
     private PostService postService;
@@ -36,11 +39,18 @@ public class PostServiceTest {
     public void testPosts() {
         //Create a Post
         Post object = new Post();
+        User user = new User();
+        user.setId(1L);
+        object.setUser(user);
+        object.setContent("");
         object.setId(1L);
         postService.createPost(object);
 
         //Find a Post
         assertThat(postService.readPost(1L), is(object));
+
+        //Posts by user
+        assertThat(postService.readPostsByUser(1L).size(), is(1));
 
         //Find All Posts
         assertThat(postService.readAllPosts().size(), is(1));
@@ -53,16 +63,6 @@ public class PostServiceTest {
         //Delete Post
         postService.deletePost(object);
         assertThat(postService.readAllPosts().size(), is(0));
-    }
-
-    @Test
-    public void testPostLike() {
-        throw new NotImplementedException();
-    }
-
-    @Test
-    public void testPostByUser() {
-        throw new NotImplementedException();
     }
 
     @Test

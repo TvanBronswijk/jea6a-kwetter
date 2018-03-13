@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 public class TagParser {
 
     public Collection<Tag> parseString(String string) {
+        if (string.isEmpty()) {
+            return null;
+        }
         return Arrays.stream(string.split(" "))
                 .filter(word -> word.toCharArray()[0] == '#')
                 .map(Tag::new)
