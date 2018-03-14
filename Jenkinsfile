@@ -20,6 +20,11 @@ pipeline {
                 sh "mvn clean verify"
             }
         }
+        stage('Deploy to Artifactory') {
+            steps {
+                sh "mvn clean deploy -DskipTest"
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 sh "mvn clean package docker:build"
