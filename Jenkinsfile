@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh "mvn clean package docker:build"
+                sh "mvn clean package docker:build -Pdocker -DskipTest"
             }
         }
     }

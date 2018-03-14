@@ -4,12 +4,12 @@
 <resources>
     <jdbc-connection-pool driver-classname="com.microsoft.sqlserver.jdbc.SQLServerDataSource" name="mssql"
                           res-type="java.sql.Driver">
-        <property name="Password" value="Password1!"/>
-        <property name="User" value="sa"/>
-        <property name="DatabaseName" value="GlassfishDB"/>
-        <property name="Domain" value="dbo"/>
-        <property name="ServerName" value="localhost"/>
-        <property name="Port" value="1433"/>
+        <property name="Password" value="${glassfish.password}"/>
+        <property name="User" value="${glassfish.username}"/>
+        <property name="DatabaseName" value="${glassfish.databasename}"/>
+        <property name="Domain" value="${glassfish.domain}"/>
+        <property name="ServerName" value="${glassfish.servername}"/>
+        <property name="Port" value="${glassfish.port}"/>
     </jdbc-connection-pool>
     <jdbc-resource pool-name="mssql" jndi-name="jdbc/kwetter"/>
 </resources>
