@@ -12,17 +12,19 @@ pipeline {
         }
         stage('Compile Source Code') {
             steps {
-                sh "mvn clean compile"
+                sh "mvn clean compile -B"
             }
         }
         stage('Test Source Code') {
             steps {
-                sh "mvn clean verify"
+                sh "mvn clean verify -B"
             }
         }
         stage('Deploy to Artifactory') {
             steps {
-                sh "mvn clean deploy -DskipTest"
+                configFileProvider([configFile(fileId: 'maven_settings', variable: 'SETTINGS')]) {
+                                    sh 'mvn -s $SETTINGS clean package deploy -DskipTests -B'
+                }
             }
         }
         stage('Build Docker Image') {
