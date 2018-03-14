@@ -19,7 +19,7 @@ pipeline {
         stage('Test Source Code') {
             steps {
                 sh "mvn clean verify -B"
-                archiveArtifacts artifacts: 'target/surefire-reports/', 'target/checkstyle-result.xml', fingerprint: true
+                archiveArtifacts artifacts: 'target/surefire-reports/', fingerprint: true
             }
         }
         stage('Build Docker Image') {
