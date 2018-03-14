@@ -18,9 +18,8 @@ public class PostService {
     private PostDa posts;
     @Inject
     private TagDa tags;
-
     @Inject
-    TagParser tagParser;
+    private TagParser tagParser;
 
     public void createPost(Post post) {
         post.setTimestamp(new Date());
