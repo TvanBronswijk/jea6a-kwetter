@@ -58,7 +58,7 @@ pipeline {
         stage('Deploy Stack to Docker Daemon') {
             agent {
                 docker {
-                    image '17.12-dind'
+                    image 'docker:17.12-dind'
                     args '-v /var/run/docker.sock:/var/run/docker.sock'
                     reuseNode true
                 }
