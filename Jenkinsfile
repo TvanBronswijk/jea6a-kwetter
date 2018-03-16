@@ -38,7 +38,7 @@ pipeline {
         stage('Deploy Stack to Docker Daemon') {
         agent {
                 docker {
-                    image 'docker:17.12'
+                    image 'docker:17.12-dind'
                 }
             }
             when {
