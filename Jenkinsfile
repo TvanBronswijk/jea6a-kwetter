@@ -38,7 +38,7 @@ pipeline {
         stage('Deploy Stack to Docker Daemon') {
         agent {
                 docker {
-                    image 'docker:17.12-ce-dind'
+                    image '17.09-dind'
                     args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
