@@ -39,6 +39,7 @@ pipeline {
         agent {
                 docker {
                     image 'docker:17.12-ce-dind'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
             when {
