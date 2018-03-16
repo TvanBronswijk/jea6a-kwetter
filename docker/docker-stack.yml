@@ -2,8 +2,6 @@ version: '3'
 services:
     db:
         image: "microsoft/mssql-server-linux:latest"
-        ports:
-            - "1433:1433"
         environment:
             SA_PASSWORD: "Password1!"
             ACCEPT_EULA: "Y"
@@ -14,8 +12,8 @@ services:
             - "db"
         image: "fontys/kwetter:latest"
         ports:
-            - "4848:4848"
-            - "8080:8080"
+            - "50001:4848"
+            - "50000:8080"
         networks:
             - "mssql"
 
