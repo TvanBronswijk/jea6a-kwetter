@@ -26,7 +26,7 @@ pipeline {
                 }
             }
             steps {
-                sh "mvn clean verify -B"
+                sh "mvn clean verify sonar:sonar -B"
                 archiveArtifacts artifacts: 'target/surefire-reports/', fingerprint: true
             }
         }
