@@ -1,7 +1,7 @@
-package nl.fontys.kwetter.da.JPA.post;
+package nl.fontys.kwetter.da.jpa.post;
 
-import nl.fontys.kwetter.da.JPA.DataAccessBase;
 import nl.fontys.kwetter.da.inf.post.TagDa;
+import nl.fontys.kwetter.da.jpa.DataAccessBase;
 import nl.fontys.kwetter.model.post.Tag;
 
 import javax.ejb.Stateless;

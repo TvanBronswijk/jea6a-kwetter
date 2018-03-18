@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.da.JPA;
+package nl.fontys.kwetter.da.jpa;
 
 import nl.fontys.kwetter.model.Model;
 
