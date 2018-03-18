@@ -26,7 +26,9 @@ pipeline {
                 }
             }
             steps {
-                sh "mvn clean verify sonar:sonar -B"
+                configFileProvider([configFile(fileId: 'maven_settings', variable: 'SETTINGS')]) {
+                    sh 'mvn -s $SETTINGS clean verify sonar:sonar -B'
+                }
                 archiveArtifacts artifacts: 'target/surefire-reports/', fingerprint: true
             }
         }
