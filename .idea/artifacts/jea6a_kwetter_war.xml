@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="jea6a-kwetter:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="kwetter.war">
-      <element id="artifact" artifact-name="jea6a-kwetter:war exploded" />
-    </root>
-  </artifact>
-</component>
