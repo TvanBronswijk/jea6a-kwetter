@@ -8,9 +8,11 @@ import nl.fontys.kwetter.service.helper.TagParser;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
+@Transactional
 @Stateless
 public class PostService {
 

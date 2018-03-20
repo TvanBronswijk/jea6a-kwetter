@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("user")
+@Path("users")
 @Stateless
 public class UserEndpoint {
 
@@ -19,7 +19,6 @@ public class UserEndpoint {
     private UserService userService;
 
     @GET
-    @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> getAllUsers() {
         return userService.readAllUsers();
@@ -54,7 +53,7 @@ public class UserEndpoint {
         userService.deleteUser(deleteUser);
         return Response.ok().build();
     }
-    
+
     @PUT
     @Path("{id}/follow")
     @Consumes(MediaType.APPLICATION_JSON)

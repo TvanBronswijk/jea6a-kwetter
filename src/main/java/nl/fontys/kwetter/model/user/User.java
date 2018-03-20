@@ -2,6 +2,7 @@ package nl.fontys.kwetter.model.user;
 
 import nl.fontys.kwetter.model.Model;
 import nl.fontys.kwetter.model.post.Post;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -9,8 +10,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Table(name = "UserEntity")
+@Table(name = "USERENTITY")
 @XmlRootElement
+@JsonIgnoreProperties( {"followers", "posts"})
 public class User implements Model {
 
     @Id
@@ -26,10 +28,10 @@ public class User implements Model {
     @OneToOne(cascade = {CascadeType.PERSIST})
     private UserDetails userDetails;
 
-    @ManyToMany
-    private Collection<User> follow;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<User> followers;
 
-    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.ALL})
     private Collection<Post> posts;
 
     private String password;
@@ -45,7 +47,7 @@ public class User implements Model {
         this.password = password;
         this.email = email;
         posts = new ArrayList<>();
-        follow = new ArrayList<>();
+        followers = new ArrayList<>();
     }
 
     @Override
@@ -97,12 +99,12 @@ public class User implements Model {
         this.userDetails = userDetails;
     }
 
-    public Collection<User> getFollow() {
-        return follow;
+    public Collection<User> getFollowers() {
+        return followers;
     }
 
-    public void setFollow(Collection<User> follow) {
-        this.follow = follow;
+    public void setFollowers(Collection<User> follow) {
+        followers = follow;
     }
 
     public Collection<Post> getPosts() {
@@ -114,6 +116,6 @@ public class User implements Model {
     }
 
     public void follow(User follower) {
-        follow.add(follower);
+        followers.add(follower);
     }
 }

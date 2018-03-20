@@ -9,8 +9,10 @@ import nl.fontys.kwetter.model.user.UserDetails;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 @Stateless
 public class UserService {
 

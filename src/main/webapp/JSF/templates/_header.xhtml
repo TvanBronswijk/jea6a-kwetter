@@ -5,11 +5,11 @@
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:b="http://bootsfaces.net/ui">
 <body>
 <ui:composition>
-    <b:navBar brand="Kwetter" brandHref="/kwetter/admin/home.xhtml" inverse="true">
+    <b:navBar brand="Kwetter" brandHref="/admin" inverse="true">
         <b:navbarLinks>
-            <b:navLink value="Home" outcome="/admin/home.xhtml"/>
-            <b:navLink value="Users" outcome="/admin/users.xhtml"/>
-            <b:navLink value="Posts" outcome="/admin/posts.xhtml"/>
+            <b:navLink value="Home" href="/admin"/>
+            <b:navLink value="Users" href="/admin/users"/>
+            <b:navLink value="Posts" href="/admin/posts"/>
         </b:navbarLinks>
         <b:navbarLinks pull="right">
             <b:navLink icon="log-out" value="Log Out" href=""/>

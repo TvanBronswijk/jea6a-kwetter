@@ -8,15 +8,6 @@
         <meta charset="utf-8"/>
     </h:head>
     <h:body>
-        <!-- Modal -->
-        <b:modal id="user-info" title="User Details" styleClass="modalPseudoClass">
-
-
-            <f:facet name="footer">
-                <b:button value="Close" dismiss="modal"/>
-            </f:facet>
-        </b:modal>
-
         <!-- header -->
         <div id="header">
             <ui:insert name="header">
@@ -31,13 +22,10 @@
                              var="user">
                     <b:dataTableColumn value="#{user.id}"/>
                     <b:dataTableColumn value="#{user.role}" order="asc"/>
-                    <b:dataTableColumn value="#{user.username}"/>
-                    <b:dataTableColumn value="#{user.password}"/>
-                    <b:dataTableColumn value="#{user.email}"/>
-                    <b:dataTableColumn label="Actions" style="text-align:center;">
+                    <b:dataTableColumn value="#{user.username}" orderable="false"/>
+                    <b:dataTableColumn value="#{user.email}" orderable="false"/>
+                    <b:dataTableColumn label="Actions" style="text-align:center;" orderable="false">
                         <b:buttonGroup>
-                            <b:button value="details" icon="info-sign" look="primary"
-                                      onclick="$('.modalPseudoClass').modal()"/>
                             <b:commandButton value="edit" icon="edit" look="success"
                                              action="#{admin.updateUser(user)}"/>
                             <b:commandButton value="delete" icon="trash" look="danger" ajax="true"

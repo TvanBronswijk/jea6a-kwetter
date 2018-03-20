@@ -2,6 +2,7 @@ package nl.fontys.kwetter.model.post;
 
 import nl.fontys.kwetter.model.Model;
 import nl.fontys.kwetter.model.user.User;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -11,6 +12,7 @@ import java.util.Date;
 
 @Entity
 @XmlRootElement
+@JsonIgnoreProperties("likes")
 public class Post implements Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +21,10 @@ public class Post implements Model {
     @ManyToOne
     private User user;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<User> likes;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Collection<Tag> tags;
 
     private String content;

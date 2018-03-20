@@ -8,15 +8,6 @@
         <meta charset="utf-8"/>
     </h:head>
     <h:body>
-        <!-- Modal -->
-        <b:modal id="post-info" title="Post Details" styleClass="modalPseudoClass">
-
-
-            <f:facet name="footer">
-                <b:button value="Close" dismiss="modal"/>
-            </f:facet>
-        </b:modal>
-
         <!-- header -->
         <div id="header">
             <ui:insert name="header">
@@ -29,14 +20,12 @@
             <h:form>
                 <b:dataTable value="#{admin.posts}"
                              var="post">
-                    <b:dataTableColumn value="#{post.id}"/>
-                    <b:dataTableColumn label="User" value="#{post.user.username}" order="asc"/>
-                    <b:dataTableColumn value="#{post.content}"/>
+                    <b:dataTableColumn value="#{post.id}" order="asc"/>
+                    <b:dataTableColumn label="User" value="#{post.user.username}" orderable="false"/>
+                    <b:dataTableColumn value="#{post.content}" orderable="false"/>
                     <b:dataTableColumn label="Time Posted" value="#{post.timestamp}"/>
-                    <b:dataTableColumn label="Actions" style="text-align:center;">
+                    <b:dataTableColumn label="Actions" style="text-align:center;" orderable="false">
                         <b:buttonGroup>
-                            <b:button value="details" icon="info-sign" look="primary"
-                                      onclick="$('.modalPseudoClass').modal()"/>
                             <b:commandButton value="edit" icon="edit" look="success"
                                              action="#{admin.updatePost(post)}"/>
                             <b:commandButton value="delete" icon="trash" look="danger"
