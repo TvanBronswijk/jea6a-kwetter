@@ -24,8 +24,24 @@ public class AdminController implements Serializable {
         return userService.readAllUsers();
     }
 
+    public void updateUser(User user) {
+        userService.updateUser(user);
+    }
+
+    public void deleteUser(User user) {
+        userService.deleteUser(user);
+    }
+
     public Collection<Post> getPosts() {
         return postService.readAllPosts();
+    }
+
+    public void updatePost(Post post) {
+        postService.updatePost(post);
+    }
+
+    public void deletePost(Post post) {
+        postService.deletePost(post);
     }
 
 }

@@ -25,12 +25,13 @@
                     <b:dataTableColumn value="#{user.username}"/>
                     <b:dataTableColumn value="#{user.password}"/>
                     <b:dataTableColumn value="#{user.email}"/>
-                    <b:dataTableColumn label="Actions">
+                    <b:dataTableColumn label="Actions" style="text-align:center;">
                         <b:buttonGroup>
                             <b:commandButton value="details" icon="info-sign" look="primary"/>
-                            <b:commandButton value="edit" icon="edit" look="success"/>
+                            <b:commandButton value="edit" icon="edit" look="success"
+                                             action="#{admin.updateUser(user)}"/>
                             <b:commandButton value="delete" icon="trash" look="danger" ajax="true"
-                                             onclick=""/>
+                                             action="#{admin.deleteUser(user)}"/>
                         </b:buttonGroup>
                     </b:dataTableColumn>
                 </b:dataTable>
