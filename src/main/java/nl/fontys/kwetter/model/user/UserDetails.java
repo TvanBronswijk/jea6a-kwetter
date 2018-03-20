@@ -14,6 +14,7 @@ public class UserDetails implements Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String imageURL;
     private String location;

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Table(name = "KWETTERUSERS")
+@Table(name = "UserEntity")
 @XmlRootElement
 public class User implements Model {
 
@@ -26,10 +26,10 @@ public class User implements Model {
     @OneToOne(cascade = {CascadeType.PERSIST})
     private UserDetails userDetails;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany
     private Collection<User> follow;
 
-    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "user")
     private Collection<Post> posts;
 
     private String password;
