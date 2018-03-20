@@ -5,6 +5,7 @@ import nl.fontys.kwetter.model.user.User;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -14,23 +15,27 @@ public class Post implements Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     private User user;
-    private String content;
-    private Date timestamp;
+
     @ManyToMany
     private Collection<User> likes;
+
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Tag> tags;
+
+    private String content;
+    private Date timestamp;
 
     public Post() {
     }
 
-    public Post(User user, String content, Date timestamp, Collection<Tag> tags) {
+    public Post(User user, String content, Date timestamp) {
         this.user = user;
         this.content = content;
         this.timestamp = timestamp;
-        this.tags = tags;
+        tags = new ArrayList<>();
     }
 
     @Override
@@ -40,14 +45,6 @@ public class Post implements Model {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getContent() {
@@ -84,5 +81,13 @@ public class Post implements Model {
 
     public void like(User user) {
         likes.add(user);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

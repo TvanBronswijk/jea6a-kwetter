@@ -1,6 +1,8 @@
 package nl.fontys.kwetter.web.faces;
 
+import nl.fontys.kwetter.model.post.Post;
 import nl.fontys.kwetter.model.user.User;
+import nl.fontys.kwetter.service.da.PostService;
 import nl.fontys.kwetter.service.da.UserService;
 
 import javax.faces.view.ViewScoped;
@@ -14,10 +16,16 @@ import java.util.Collection;
 public class AdminController implements Serializable {
 
     @Inject
-    private UserService service;
+    private UserService userService;
+    @Inject
+    private PostService postService;
 
     public Collection<User> getUsers() {
-        return service.readAllUsers();
+        return userService.readAllUsers();
+    }
+
+    public Collection<Post> getPosts() {
+        return postService.readAllPosts();
     }
 
 }

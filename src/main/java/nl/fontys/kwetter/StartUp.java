@@ -52,8 +52,7 @@ public class StartUp {
         //First Post
         Post post = new Post(firstUser,
                 "This is the first post on Kwetter! #first",
-                new Date(),
-                null);
+                new Date());
         postService.createPost(post);
     }
 }

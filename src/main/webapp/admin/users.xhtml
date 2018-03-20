@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<f:view contentType="text/html">
+    <h:head>
+        <meta charset="utf-8"/>
+    </h:head>
+    <h:body>
+        <!-- header -->
+        <div id="header">
+            <ui:insert name="header">
+                <ui:include src="../templates/_header.xhtml"/>
+            </ui:insert>
+        </div>
+
+        <!-- content -->
+        <b:container fluid="true">
+            <h:form>
+                <b:dataTable value="#{admin.users}"
+                             var="user">
+                    <b:dataTableColumn value="#{user.id}"/>
+                    <b:dataTableColumn value="#{user.role}" order="asc"/>
+                    <b:dataTableColumn value="#{user.username}"/>
+                    <b:dataTableColumn value="#{user.password}"/>
+                    <b:dataTableColumn value="#{user.email}"/>
+                    <b:dataTableColumn label="Actions">
+                        <b:buttonGroup>
+                            <b:commandButton value="details" icon="info-sign" look="primary"/>
+                            <b:commandButton value="edit" icon="edit" look="success"/>
+                            <b:commandButton value="delete" icon="trash" look="danger" ajax="true"
+                                             onclick=""/>
+                        </b:buttonGroup>
+                    </b:dataTableColumn>
+                </b:dataTable>
+            </h:form>
+        </b:container>
+
+        <!-- footer -->
+        <div id="footer">
+            <ui:insert name="footer">
+                <ui:include src="../templates/_footer.xhtml"/>
+            </ui:insert>
+        </div>
+    </h:body>
+</f:view>
+</html>

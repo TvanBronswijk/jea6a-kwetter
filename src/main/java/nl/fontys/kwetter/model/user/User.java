@@ -1,9 +1,11 @@
 package nl.fontys.kwetter.model.user;
 
 import nl.fontys.kwetter.model.Model;
+import nl.fontys.kwetter.model.post.Post;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -14,26 +16,36 @@ public class User implements Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true)
     private String username;
-    private String password;
-    private String email;
+
     @ManyToOne
     private Role role;
-    @OneToOne(cascade = CascadeType.PERSIST)
+
+    @OneToOne(cascade = {CascadeType.PERSIST})
     private UserDetails userDetails;
-    @ManyToMany(cascade = CascadeType.REMOVE)
+
+    @ManyToMany(cascade = {CascadeType.ALL})
     private Collection<User> follow;
+
+    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private Collection<Post> posts;
+
+    private String password;
+    private String email;
 
     public User() {
     }
 
     public User(String username, String password, String email, Role role, UserDetails userDetails) {
         this.username = username;
-        this.password = password;
-        this.email = email;
         this.role = role;
         this.userDetails = userDetails;
+        this.password = password;
+        this.email = email;
+        posts = new ArrayList<>();
+        follow = new ArrayList<>();
     }
 
     @Override
@@ -91,6 +103,14 @@ public class User implements Model {
 
     public void setFollow(Collection<User> follow) {
         this.follow = follow;
+    }
+
+    public Collection<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Collection<Post> posts) {
+        this.posts = posts;
     }
 
     public void follow(User follower) {
