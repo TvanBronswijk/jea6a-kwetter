@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -8,6 +7,19 @@
     <artifactId>kwetter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
+
+    <distributionManagement>
+        <repository>
+            <id>artifactory</id>
+            <name>c53325995254-releases</name>
+            <url>http://192.168.25.98:8081/artifactory/release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>artifactory</id>
+            <name>c53325995254-snapshots</name>
+            <url>http://192.168.25.98:8081/artifactory/dev-local</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <properties>
         <!-- Compiler Versions -->
@@ -51,14 +63,12 @@
             <artifactId>mssql-jdbc</artifactId>
             <version>${sqlserver.version}</version>
         </dependency>
-
         <!-- Logging -->
         <dependency>
             <groupId>io.sentry</groupId>
             <artifactId>sentry</artifactId>
             <version>${sentry.version}</version>
         </dependency>
-
         <!-- JSF -->
         <dependency>
             <groupId>org.ocpsoft.rewrite</groupId>
@@ -75,7 +85,6 @@
             <artifactId>bootsfaces</artifactId>
             <version>${bootsfaces.version}</version>
         </dependency>
-
         <!--Testing Dependencies-->
         <dependency>
             <groupId>junit</groupId>
@@ -103,12 +112,21 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>artifactory</id>
+            <name>Artifactory</name>
+            <url>http://192.168.25.98:8081/artifactory/maven-central-remote/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
     <build>
         <finalName>kwetter</finalName>
         <resources>
             <resource>
-                <directory>${basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources</directory>
             </resource>
         </resources>
         <plugins>
@@ -134,10 +152,10 @@
                 <executions>
                     <execution>
                         <id>copy</id>
-                        <phase>package</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
+                        <phase>package</phase>
                         <configuration>
                             <outputDirectory>${project.build.directory}/lib</outputDirectory>
                         </configuration>
@@ -174,7 +192,7 @@
             </plugin>
         </plugins>
     </build>
-
+    
     <profiles>
         <profile>
             <id>local</id>
@@ -199,27 +217,4 @@
             </properties>
         </profile>
     </profiles>
-
-    <repositories>
-        <repository>
-            <url>http://192.168.25.98:8081/artifactory/maven-central-remote/</url>
-            <id>artifactory</id>
-            <layout>default</layout>
-            <name>Artifactory</name>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>artifactory</id>
-            <name>c53325995254-releases</name>
-            <url>http://192.168.25.98:8081/artifactory/release-local</url>
-        </repository>
-
-        <snapshotRepository>
-            <id>artifactory</id>
-            <name>c53325995254-snapshots</name>
-            <url>http://192.168.25.98:8081/artifactory/dev-local</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>

@@ -11,7 +11,7 @@ public class PostEndpointTest {
     @Test
     public void restPostTest() {
         //create a Post
-        Post newPost = new Post(null, "test", null, null);
+        Post newPost = new Post(null, "test", null);
         given().contentType("application/json").
                 body(newPost)
                 .when()
@@ -42,7 +42,7 @@ public class PostEndpointTest {
                 .statusCode(200);
 
         //update existing Post
-        Post updatePost = new Post(null, "test2", null, null);
+        Post updatePost = new Post(null, "test2", null);
         updatePost.setId(1L);
         given().contentType("application/json")
                 .body(updatePost)
