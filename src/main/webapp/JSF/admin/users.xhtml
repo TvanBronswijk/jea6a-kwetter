@@ -26,9 +26,9 @@
                     <b:dataTableColumn value="#{user.email}" orderable="false"/>
                     <b:dataTableColumn label="Actions" style="text-align:center;" orderable="false">
                         <b:buttonGroup>
-                            <b:commandButton value="edit" icon="edit" look="success"
-                                             action="#{admin.updateUser(user)}"/>
-                            <b:commandButton value="delete" icon="trash" look="danger" ajax="true"
+                            <b:commandButton value="elevate" icon="arrow-up" look="success"
+                                             action="#{admin.elevateUser(user)}" rendered="#{user.role.id != 1}"/>
+                            <b:commandButton value="delete" icon="trash" look="danger"
                                              action="#{admin.deleteUser(user)}"/>
                         </b:buttonGroup>
                     </b:dataTableColumn>

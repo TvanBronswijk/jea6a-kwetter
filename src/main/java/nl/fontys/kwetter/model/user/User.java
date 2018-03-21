@@ -1,8 +1,8 @@
 package nl.fontys.kwetter.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import nl.fontys.kwetter.model.Model;
 import nl.fontys.kwetter.model.post.Post;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Table(name = "USERENTITY")
+@Table(name = "UserEntity")
 @XmlRootElement
-@JsonIgnoreProperties( {"followers", "posts"})
 public class User implements Model {
 
     @Id
@@ -29,9 +28,11 @@ public class User implements Model {
     private UserDetails userDetails;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
     private Collection<User> followers;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.ALL})
+    @JsonIgnore
     private Collection<Post> posts;
 
     private String password;

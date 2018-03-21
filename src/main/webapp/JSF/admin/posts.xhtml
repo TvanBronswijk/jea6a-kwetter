@@ -26,8 +26,6 @@
                     <b:dataTableColumn label="Time Posted" value="#{post.timestamp}"/>
                     <b:dataTableColumn label="Actions" style="text-align:center;" orderable="false">
                         <b:buttonGroup>
-                            <b:commandButton value="edit" icon="edit" look="success"
-                                             action="#{admin.updatePost(post)}"/>
                             <b:commandButton value="delete" icon="trash" look="danger"
                                              action="#{admin.deletePost(post)}"/>
                         </b:buttonGroup>

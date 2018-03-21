@@ -23,12 +23,9 @@
           <element id="library" level="project" name="Maven: io.sentry:sentry:1.7.2" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.24" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.7" />
-          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" />
-          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" />
           <element id="library" level="project" name="Maven: org.ocpsoft.rewrite:rewrite-servlet:3.4.1.Final" />
           <element id="library" level="project" name="Maven: org.ocpsoft.rewrite:rewrite-config-prettyfaces:3.4.1.Final" />
           <element id="library" level="project" name="Maven: org.ocpsoft.rewrite:rewrite-integration-faces:3.4.1.Final" />
-          <element id="library" level="project" name="Maven: org.omnifaces:omnifaces:3.0" />
           <element id="library" level="project" name="Maven: net.bootsfaces:bootsfaces:1.2.0" />
         </element>
       </element>

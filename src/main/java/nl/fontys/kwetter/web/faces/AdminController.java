@@ -24,7 +24,8 @@ public class AdminController implements Serializable {
         return userService.readAllUsers();
     }
 
-    public void updateUser(User user) {
+    public void elevateUser(User user) {
+        user.setRole(userService.readRole(1L));
         userService.updateUser(user);
     }
 
@@ -34,10 +35,6 @@ public class AdminController implements Serializable {
 
     public Collection<Post> getPosts() {
         return postService.readAllPosts();
-    }
-
-    public void updatePost(Post post) {
-        postService.updatePost(post);
     }
 
     public void deletePost(Post post) {
