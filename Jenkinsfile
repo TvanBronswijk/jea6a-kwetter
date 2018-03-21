@@ -57,6 +57,21 @@ pipeline {
                 archiveArtifacts artifacts: 'target/kwetter.war', fingerprint: true
             }
         }
+        stage('Pull Docker Images') {
+            agent {
+                docker {
+                    image 'docker:17.12-dind'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                    reuseNode true
+                }
+            }
+            when {
+                branch 'master'
+            }
+            steps {
+                sh 'docker pull microsoft/mssql-server-linux:latest'
+            }
+        }
         stage('Deploy Stack to Docker Daemon') {
             agent {
                 docker {

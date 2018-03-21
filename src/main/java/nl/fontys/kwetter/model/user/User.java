@@ -31,10 +31,11 @@ public class User implements Model {
     @JsonIgnore
     private Collection<User> followers;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.REMOVE})
     @JsonIgnore
     private Collection<Post> posts;
 
+    @JsonIgnore
     private String password;
     private String email;
 
