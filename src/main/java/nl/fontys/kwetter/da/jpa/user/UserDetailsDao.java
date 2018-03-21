@@ -1,7 +1,7 @@
-package nl.fontys.kwetter.da.JPA.user;
+package nl.fontys.kwetter.da.jpa.user;
 
-import nl.fontys.kwetter.da.JPA.DataAccessBase;
 import nl.fontys.kwetter.da.inf.user.UserDetailsDa;
+import nl.fontys.kwetter.da.jpa.DataAccessBase;
 import nl.fontys.kwetter.model.user.UserDetails;
 
 import javax.ejb.Stateless;

@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("post")
+@Path("posts")
 @Stateless
 public class PostEndpoint {
 
@@ -19,7 +19,6 @@ public class PostEndpoint {
     private PostService postService;
 
     @GET
-    @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Post> getAllPosts() {
         return postService.readAllPosts();

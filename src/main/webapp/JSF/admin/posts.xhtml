@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<f:view contentType="text/html">
+    <h:head>
+        <meta charset="utf-8"/>
+    </h:head>
+    <h:body>
+        <!-- header -->
+        <div id="header">
+            <ui:insert name="header">
+                <ui:include src="../templates/_header.xhtml"/>
+            </ui:insert>
+        </div>
+
+        <!-- content -->
+        <b:container fluid="true">
+            <h:form>
+                <b:dataTable value="#{admin.posts}"
+                             var="post">
+                    <b:dataTableColumn value="#{post.id}" order="asc"/>
+                    <b:dataTableColumn label="User" value="#{post.user.username}" orderable="false"/>
+                    <b:dataTableColumn value="#{post.content}" orderable="false"/>
+                    <b:dataTableColumn label="Time Posted" value="#{post.timestamp}"/>
+                    <b:dataTableColumn label="Actions" style="text-align:center;" orderable="false">
+                        <b:buttonGroup>
+                            <b:commandButton value="delete" icon="trash" look="danger"
+                                             action="#{admin.deletePost(post)}"/>
+                        </b:buttonGroup>
+                    </b:dataTableColumn>
+                </b:dataTable>
+            </h:form>
+        </b:container>
+
+        <!-- footer -->
+        <div id="footer">
+            <ui:insert name="footer">
+                <ui:include src="../templates/_footer.xhtml"/>
+            </ui:insert>
+        </div>
+    </h:body>
+</f:view>
+</html>

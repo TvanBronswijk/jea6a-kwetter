@@ -1,39 +1,54 @@
 package nl.fontys.kwetter.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import nl.fontys.kwetter.model.Model;
+import nl.fontys.kwetter.model.post.Post;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Table(name = "KWETTERUSERS")
+@Table(name = "UserEntity")
 @XmlRootElement
 public class User implements Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true)
     private String username;
-    private String password;
-    private String email;
+
     @ManyToOne
     private Role role;
-    @OneToOne(cascade = CascadeType.PERSIST)
+
+    @OneToOne(cascade = {CascadeType.PERSIST})
     private UserDetails userDetails;
-    @ManyToMany(cascade = CascadeType.REMOVE)
-    private Collection<User> follow;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Collection<User> followers;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.ALL})
+    @JsonIgnore
+    private Collection<Post> posts;
+
+    private String password;
+    private String email;
 
     public User() {
     }
 
     public User(String username, String password, String email, Role role, UserDetails userDetails) {
         this.username = username;
-        this.password = password;
-        this.email = email;
         this.role = role;
         this.userDetails = userDetails;
+        this.password = password;
+        this.email = email;
+        posts = new ArrayList<>();
+        followers = new ArrayList<>();
     }
 
     @Override
@@ -85,15 +100,23 @@ public class User implements Model {
         this.userDetails = userDetails;
     }
 
-    public Collection<User> getFollow() {
-        return follow;
+    public Collection<User> getFollowers() {
+        return followers;
     }
 
-    public void setFollow(Collection<User> follow) {
-        this.follow = follow;
+    public void setFollowers(Collection<User> follow) {
+        followers = follow;
+    }
+
+    public Collection<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Collection<Post> posts) {
+        this.posts = posts;
     }
 
     public void follow(User follower) {
-        follow.add(follower);
+        followers.add(follower);
     }
 }
