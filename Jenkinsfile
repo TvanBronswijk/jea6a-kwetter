@@ -1,4 +1,8 @@
 pipeline {
+    environment {
+        server = "server"
+    }
+
     agent any
     stages {
         stage('checkout') {
@@ -14,8 +18,8 @@ pipeline {
                 }
             }
             steps {
-                sh "cd server && mvn clean compile -B"
-                archiveArtifacts artifacts: 'target/', fingerprint: true
+                sh "cd ${server} && mvn clean compile -B"
+                archiveArtifacts artifacts: '${server}/target/', fingerprint: true
             }
         }
         stage('Test Source Code') {
@@ -27,9 +31,9 @@ pipeline {
             }
             steps {
                 configFileProvider([configFile(fileId: 'maven_settings', variable: 'SETTINGS')]) {
-                    sh 'cd server && mvn -s $SETTINGS clean verify sonar:sonar -B'
+                    sh 'cd ${server} && mvn -s $SETTINGS clean verify sonar:sonar -B'
                 }
-                archiveArtifacts artifacts: 'target/surefire-reports/', fingerprint: true
+                archiveArtifacts artifacts: '${server}/target/surefire-reports/', fingerprint: true
             }
         }
         stage('Build Docker Image') {
@@ -40,7 +44,7 @@ pipeline {
                 }
             }
             steps {
-                sh "cd server && mvn clean package docker:build -DskipTest"
+                sh "cd ${server} && mvn clean package docker:build -DskipTest"
             }
         }
         stage('Deploy WAR to Artifactory') {
@@ -52,9 +56,9 @@ pipeline {
             }
             steps {
                 configFileProvider([configFile(fileId: 'maven_settings', variable: 'SETTINGS')]) {
-                                    sh 'cd server && mvn -s $SETTINGS clean package deploy -DskipTests -B'
+                                    sh 'cd ${server} && mvn -s $SETTINGS clean package deploy -DskipTests -B'
                 }
-                archiveArtifacts artifacts: 'target/kwetter.war', fingerprint: true
+                archiveArtifacts artifacts: '${server}/target/kwetter.war', fingerprint: true
             }
         }
         stage('Pull Docker Images') {
