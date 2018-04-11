@@ -19,7 +19,6 @@ pipeline {
             }
             steps {
                 sh "cd ${server} && mvn clean compile -B"
-                archiveArtifacts artifacts: '${server}/target/', fingerprint: true
             }
         }
         stage('Test Source Code') {
@@ -33,7 +32,6 @@ pipeline {
                 configFileProvider([configFile(fileId: 'maven_settings', variable: 'SETTINGS')]) {
                     sh 'cd ${server} && mvn -s $SETTINGS clean verify sonar:sonar -B'
                 }
-                archiveArtifacts artifacts: '${server}/target/surefire-reports/', fingerprint: true
             }
         }
         stage('Build Docker Image') {
@@ -58,7 +56,6 @@ pipeline {
                 configFileProvider([configFile(fileId: 'maven_settings', variable: 'SETTINGS')]) {
                                     sh 'cd ${server} && mvn -s $SETTINGS clean package deploy -DskipTests -B'
                 }
-                archiveArtifacts artifacts: '${server}/target/kwetter.war', fingerprint: true
             }
         }
         stage('Pull Docker Images') {
