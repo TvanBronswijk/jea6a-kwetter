@@ -14,8 +14,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'cd server'
-                sh "mvn clean compile -B"
+                sh "cd server && mvn clean compile -B"
                 archiveArtifacts artifacts: 'target/', fingerprint: true
             }
         }
@@ -28,8 +27,7 @@ pipeline {
             }
             steps {
                 configFileProvider([configFile(fileId: 'maven_settings', variable: 'SETTINGS')]) {
-                    sh 'cd server'
-                    sh 'mvn -s $SETTINGS clean verify sonar:sonar -B'
+                    sh 'cd server && mvn -s $SETTINGS clean verify sonar:sonar -B'
                 }
                 archiveArtifacts artifacts: 'target/surefire-reports/', fingerprint: true
             }
@@ -42,8 +40,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'cd server'
-                sh "mvn clean package docker:build -DskipTest"
+                sh "cd server && mvn clean package docker:build -DskipTest"
             }
         }
         stage('Deploy WAR to Artifactory') {
@@ -55,8 +52,7 @@ pipeline {
             }
             steps {
                 configFileProvider([configFile(fileId: 'maven_settings', variable: 'SETTINGS')]) {
-                                    sh 'cd server'
-                                    sh 'mvn -s $SETTINGS clean package deploy -DskipTests -B'
+                                    sh 'cd server && mvn -s $SETTINGS clean package deploy -DskipTests -B'
                 }
                 archiveArtifacts artifacts: 'target/kwetter.war', fingerprint: true
             }
