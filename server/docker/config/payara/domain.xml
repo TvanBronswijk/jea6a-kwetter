@@ -80,15 +80,15 @@
       <microprofile-metrics-configuration></microprofile-metrics-configuration>
       <security-service jacc="simple">
         <auth-realm classname="com.sun.enterprise.security.auth.realm.jdbc.JDBCRealm" name="kwetter-realm">
-          <property name="jaas-context" value="jdbcRealm"></property>
-          <property name="password-column" value="password"></property>
-          <property name="datasource-jndi" value="jdbc/kwetter"></property>
-          <property name="group-table" value="Role"></property>
-          <property name="charset" value="UTF-8"></property>
-          <property name="user-table" value="UserEntity"></property>
-          <property name="group-name-column" value="name"></property>
-          <property name="digestrealm-password-enc-algorithm" value="SHA-256"></property>
           <property name="user-name-column" value="username"></property>
+          <property name="password-column" value="password"></property>
+          <property name="group-name-column" value="name"></property>
+          <property name="group-table" value="v_realm"></property>
+          <property name="user-table" value="UserEntity"></property>
+          <property name="datasource-jndi" value="jdbc/kwetter"></property>
+          <property name="jaas-context" value="jdbcRealm"></property>
+          <property name="digest-algorithm" value="SHA-256"></property>
+          <property name="encoding" value="Base64"></property>
         </auth-realm>
         <auth-realm classname="com.sun.enterprise.security.auth.realm.file.FileRealm" name="admin-realm">
           <property name="file" value="${com.sun.aas.instanceRoot}/config/admin-keyfile"></property>
@@ -171,8 +171,8 @@
           </protocol>
         </protocols>
         <network-listeners>
-          <network-listener protocol="http-listener" port="80" name="http-listener" thread-pool="http-thread-pool" transport="tcp"></network-listener>
-          <network-listener protocol="https-listener" port="443" name="https-listener" thread-pool="http-thread-pool" transport="tcp" enabled="false"></network-listener>
+          <network-listener protocol="http-listener" port="8080" name="http-listener" thread-pool="http-thread-pool" transport="tcp"></network-listener>
+          <network-listener protocol="https-listener" port="8081" name="https-listener" thread-pool="http-thread-pool" transport="tcp" enabled="false"></network-listener>
         </network-listeners>
         <transports>
           <transport acceptor-threads="-1" name="tcp" byte-buffer-type="HEAP"></transport>
@@ -203,7 +203,7 @@
       </monitoring-service>
     </config>
   </configs>
-  <property name="administrative.domain.name" value="domain1"></property>
+  <property name="administrative.domain.name" value="docker"></property>
   <deployment-groups></deployment-groups>
   <clusters></clusters>
 </domain>

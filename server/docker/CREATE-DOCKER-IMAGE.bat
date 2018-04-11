@@ -1,2 +1,2 @@
 cd ..
-mvn clean package docker:build -Pdocker -DskipTest
+mvn clean package docker:build -DskipTest

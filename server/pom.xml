@@ -192,29 +192,4 @@
             </plugin>
         </plugins>
     </build>
-    
-    <profiles>
-        <profile>
-            <id>local</id>
-            <properties>
-                <glassfish.servername>localhost</glassfish.servername>
-                <glassfish.port>1433</glassfish.port>
-                <glassfish.databasename>GlassfishDB</glassfish.databasename>
-                <glassfish.domain>dbo</glassfish.domain>
-                <glassfish.username>glassfish</glassfish.username>
-                <glassfish.password>glassfish</glassfish.password>
-            </properties>
-        </profile>
-        <profile>
-            <id>docker</id>
-            <properties>
-                <glassfish.servername>db</glassfish.servername>
-                <glassfish.port>1433</glassfish.port>
-                <glassfish.databasename>tempdb</glassfish.databasename>
-                <glassfish.domain>dbo</glassfish.domain>
-                <glassfish.username>sa</glassfish.username>
-                <glassfish.password>Password1!</glassfish.password>
-            </properties>
-        </profile>
-    </profiles>
 </project>
