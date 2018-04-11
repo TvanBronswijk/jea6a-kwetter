@@ -40,7 +40,7 @@ pipeline {
                 }
             }
             steps {
-                sh "mvn clean package docker:build -Pdocker -DskipTest -f server"
+                sh "mvn clean package docker:build -DskipTest -f server"
             }
         }
         stage('Deploy WAR to Artifactory') {
