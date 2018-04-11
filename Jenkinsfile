@@ -1,4 +1,8 @@
 pipeline {
+    environment {
+        server = "server"
+    }
+
     agent any
     stages {
         stage('checkout') {
@@ -14,8 +18,7 @@ pipeline {
                 }
             }
             steps {
-                sh "mvn clean compile -B"
-                archiveArtifacts artifacts: 'target/', fingerprint: true
+                sh "cd ${server} && mvn clean compile -B"
             }
         }
         stage('Test Source Code') {
@@ -27,9 +30,8 @@ pipeline {
             }
             steps {
                 configFileProvider([configFile(fileId: 'maven_settings', variable: 'SETTINGS')]) {
-                    sh 'mvn -s $SETTINGS clean verify sonar:sonar -B'
+                    sh 'cd ${server} && mvn -s $SETTINGS clean verify sonar:sonar -B'
                 }
-                archiveArtifacts artifacts: 'target/surefire-reports/', fingerprint: true
             }
         }
         stage('Build Docker Image') {
@@ -40,7 +42,7 @@ pipeline {
                 }
             }
             steps {
-                sh "mvn clean package docker:build -Pdocker -DskipTest"
+                sh "cd ${server} && mvn clean package docker:build -DskipTest"
             }
         }
         stage('Deploy WAR to Artifactory') {
@@ -52,9 +54,23 @@ pipeline {
             }
             steps {
                 configFileProvider([configFile(fileId: 'maven_settings', variable: 'SETTINGS')]) {
-                                    sh 'mvn -s $SETTINGS clean package deploy -DskipTests -B'
+                                    sh 'cd ${server} && mvn -s $SETTINGS clean package deploy -DskipTests -B'
                 }
-                archiveArtifacts artifacts: 'target/kwetter.war', fingerprint: true
+            }
+        }
+        stage('Pull Docker Images') {
+            agent {
+                docker {
+                    image 'docker:17.12-dind'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                    reuseNode true
+                }
+            }
+            when {
+                branch 'master'
+            }
+            steps {
+                sh 'docker pull microsoft/mssql-server-linux:latest'
             }
         }
         stage('Deploy Stack to Docker Daemon') {
