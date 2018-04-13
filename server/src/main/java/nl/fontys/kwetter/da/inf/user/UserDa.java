@@ -6,5 +6,6 @@ import nl.fontys.kwetter.model.user.User;
 import java.util.List;
 
 public interface UserDa extends Crud<User> {
+    User read(String username);
     List<User> readAll();
 }

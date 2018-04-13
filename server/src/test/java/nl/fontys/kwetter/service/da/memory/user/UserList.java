@@ -10,6 +10,11 @@ import java.util.List;
 
 public class UserList extends TestDataAccessBase<User> implements UserDa {
     @Override
+    public User read(String username) {
+        return new User();
+    }
+
+    @Override
     public List<User> readAll() {
         List<User> result = new ArrayList<>(data);
         result.removeAll(Collections.singleton(null));

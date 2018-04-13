@@ -24,6 +24,10 @@ public class Post implements Model {
     @JsonIgnore
     private Collection<User> likes;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Collection<User> mentions;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Collection<Tag> tags;
 
@@ -91,5 +95,13 @@ public class Post implements Model {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Collection<User> getMentions() {
+        return mentions;
+    }
+
+    public void setMentions(Collection<User> mentions) {
+        this.mentions = mentions;
     }
 }

@@ -3,13 +3,13 @@
                xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
                       http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
 
+    <url-mapping id="login">
+        <pattern value="/login"/>
+        <view-id value="/JSF/login.xhtml"/>
+    </url-mapping>
     <url-mapping id="admin-home">
         <pattern value="/admin"/>
         <view-id value="/JSF/admin/home.xhtml"/>
-    </url-mapping>
-    <url-mapping id="admin-login">
-        <pattern value="/admin/login"/>
-        <view-id value="/JSF/admin/login.xhtml"/>
     </url-mapping>
     <url-mapping id="admin-users-page">
         <pattern value="/admin/users"/>

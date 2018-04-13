@@ -31,6 +31,13 @@ public class UserEndpoint {
         return userService.readUser(id);
     }
 
+    @GET
+    @Path("byname/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getSingleUser(@PathParam("name") String name) {
+        return userService.readUser(name);
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUser(User user) {
@@ -57,7 +64,7 @@ public class UserEndpoint {
     @PUT
     @Path("{id}/follow")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateUser(@PathParam("id") Long id, User follower) {
+    public Response followUser(@PathParam("id") Long id, User follower) {
         User user = userService.readUser(id);
         user.follow(follower);
         userService.updateUser(user);

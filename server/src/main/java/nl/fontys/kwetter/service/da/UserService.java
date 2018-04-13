@@ -40,6 +40,10 @@ public class UserService {
         return users.read(id);
     }
 
+    public User readUser(String username) {
+        return users.read(username);
+    }
+
     public List<User> readAllUsers() {
         return users.readAll();
     }
@@ -50,6 +54,15 @@ public class UserService {
 
     public void deleteUser(User user) {
         users.delete(user);
+    }
+
+    public boolean validatePassword(User user, String password) {
+        try {
+            return user.getPassword().equals(AuthenticationUtil.encodeSHA256(password));
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public void createUserDetails(UserDetails userDetails) {

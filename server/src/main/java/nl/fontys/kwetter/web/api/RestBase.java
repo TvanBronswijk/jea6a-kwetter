@@ -1,6 +1,7 @@
 package nl.fontys.kwetter.web.api;
 
 import nl.fontys.kwetter.web.api.endpoint.PostEndpoint;
+import nl.fontys.kwetter.web.api.endpoint.TokenEndpoint;
 import nl.fontys.kwetter.web.api.endpoint.UserEndpoint;
 
 import javax.ws.rs.ApplicationPath;
@@ -23,6 +24,7 @@ public class RestBase extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(PostEndpoint.class);
         resources.add(UserEndpoint.class);
+        resources.add(TokenEndpoint.class);
     }
 
 }

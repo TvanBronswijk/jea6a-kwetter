@@ -20,25 +20,25 @@
         <b:container style="padding-top: 60px; background-color: #add;">
             <h:form styleClass="form-signin" prependId="false">
                 <h2 class="form-signin-heading">Please sign in</h2>
-                <b:inputText id="username" placeholder="Username">
+                <b:inputText id="username" value="#{login.username}" placeholder="Username">
                     <f:facet name="prepend">
                         <b:icon name="user"/>
                     </f:facet>
                 </b:inputText>
-                <b:inputText id="password" placeholder="Password" type="password">
+                <b:inputText id="password" value="#{login.password}" placeholder="Password" type="password">
                     <f:facet name="prepend">
                         <b:iconAwesome name="key"/>
                     </f:facet>
                 </b:inputText>
                 <b:selectBooleanCheckbox value="true" caption="remember me"/>
-                <b:commandButton look="primary btn-block" value="Log In" icon="log-in" size="lg"/>
+                <b:commandButton look="primary btn-block" action="#{login.login}" value="Login" icon="log-in" size="lg"/>
             </h:form>
         </b:container>
 
         <!-- footer -->
         <div id="footer">
             <ui:insert name="footer">
-                <ui:include src="../templates/_footer.xhtml"/>
+                <ui:include src="./templates/_footer.xhtml"/>
             </ui:insert>
         </div>
     </h:body>

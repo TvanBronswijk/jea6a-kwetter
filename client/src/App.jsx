@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import Home from "./modules/views/Home";
-import {Menu} from "semantic-ui-react";
+import NavBar from "./modules/views/NavBar/NavBar";
 
 class App extends Component {
   render() {
     return <div>
-        <Menu inverted> </Menu>
-        <Home />
+        <NavBar/>
+        {
+            this.props.children
+        }
     </div>;
   }
 }

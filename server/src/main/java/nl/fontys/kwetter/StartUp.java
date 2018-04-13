@@ -47,10 +47,10 @@ public class StartUp {
 
         //First User
         UserDetails firstUserDetails = new UserDetails("Original User",
-                null,
+                "https://t0.rbxcdn.com/178e709dda9fc9503605006f507c7216",
                 "The Internet",
                 "I am the first user on Kwetter!",
-                null);
+                "https://www.google.nl/");
         User firstUser = new User("first", "hunter2", "first@user.nl", firstUserDetails);
         firstUser.addRole(userRole);
         userService.createUser(firstUser);
