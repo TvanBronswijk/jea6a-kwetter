@@ -19,6 +19,9 @@ import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.UnsupportedEncodingException;
 
+import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
+import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
+
 @Path("tokens")
 @Stateless
 public class TokenEndpoint {
@@ -33,11 +36,14 @@ public class TokenEndpoint {
         User dbUser = userService.readUser(login.getUsername());
         if (userService.validatePassword(dbUser, login.getPassword())) {
             try {
-                return Response.ok(JsonWebTokenService.generateToken(dbUser)).build();
+                String token = JsonWebTokenService.generateToken(dbUser);
+                return Response.ok()
+                        .header(AUTHORIZATION, "Bearer " + token)
+                        .build();
             } catch (UnsupportedEncodingException | JsonProcessingException e) {
-                e.printStackTrace();
+                return Response.status(UNAUTHORIZED).build();
             }
         }
-        return null;
+        return Response.status(UNAUTHORIZED).build();
     }
 }

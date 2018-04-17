@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.web.api;
 
+import nl.fontys.kwetter.annotations.handler.JwtAuthorizationHandler;
 import nl.fontys.kwetter.web.api.endpoint.PostEndpoint;
 import nl.fontys.kwetter.web.api.endpoint.TokenEndpoint;
 import nl.fontys.kwetter.web.api.endpoint.UserEndpoint;
@@ -17,6 +18,9 @@ public class RestBase extends Application {
 
         // Add Jackson feature.
         resources.add(org.glassfish.jersey.jackson.JacksonFeature.class);
+
+        // Add Authorization
+        resources.add(JwtAuthorizationHandler.class);
 
         return resources;
     }

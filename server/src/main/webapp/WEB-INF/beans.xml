@@ -4,6 +4,6 @@
        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
        bean-discovery-mode="all">
     <interceptors>
-        <class>nl.fontys.kwetter.interceptor.handler.LoggingHandler</class>
+        <class>nl.fontys.kwetter.annotations.handler.LoggingHandler</class>
     </interceptors>
 </beans>

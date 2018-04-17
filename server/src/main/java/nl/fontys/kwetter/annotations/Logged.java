@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.interceptor;
+package nl.fontys.kwetter.annotations;
 
 import javax.interceptor.InterceptorBinding;
 import java.lang.annotation.Retention;

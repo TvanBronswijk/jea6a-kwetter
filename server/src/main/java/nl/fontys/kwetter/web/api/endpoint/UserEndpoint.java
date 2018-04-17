@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.web.api.endpoint;
 
+import nl.fontys.kwetter.annotations.JwtNeeded;
 import nl.fontys.kwetter.model.user.User;
-import nl.fontys.kwetter.model.user.UserDetails;
 import nl.fontys.kwetter.service.da.UserService;
 
 import javax.ejb.Stateless;
@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Path("users")
 @Stateless
@@ -20,25 +19,26 @@ public class UserEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> getAllUsers() {
-        return userService.readAllUsers();
+    public Response getAllUsers() {
+        return Response.ok().entity(userService.readAllUsers()).build();
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User getSingleUser(@PathParam("id") Long id) {
-        return userService.readUser(id);
+    public Response getSingleUser(@PathParam("id") Long id) {
+        return Response.ok().entity(userService.readUser(id)).build();
     }
 
     @GET
-    @Path("byname/{name}")
+    @Path("name/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User getSingleUser(@PathParam("name") String name) {
-        return userService.readUser(name);
+    public Response getSingleUser(@PathParam("name") String name) {
+        return Response.ok().entity(userService.readUser(name)).build();
     }
 
     @POST
+    @JwtNeeded
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUser(User user) {
         userService.createUser(user);
@@ -46,6 +46,7 @@ public class UserEndpoint {
     }
 
     @PUT
+    @JwtNeeded
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateUser(User user) {
         userService.updateUser(user);
@@ -53,6 +54,7 @@ public class UserEndpoint {
     }
 
     @DELETE
+    @JwtNeeded
     @Path("{id}")
     public Response deleteUser(@PathParam("id") Long id) {
         User deleteUser = new User();
@@ -62,6 +64,7 @@ public class UserEndpoint {
     }
 
     @PUT
+    @JwtNeeded
     @Path("{id}/follow")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response followUser(@PathParam("id") Long id, User follower) {
@@ -74,8 +77,8 @@ public class UserEndpoint {
     @GET
     @Path("{id}/details")
     @Produces(MediaType.APPLICATION_JSON)
-    public UserDetails getSingleUserDetails(@PathParam("id") Long id) {
-        return userService.readUser(id).getUserDetails();
+    public Response getSingleUserDetails(@PathParam("id") Long id) {
+        return Response.ok().entity(userService.readUser(id).getUserDetails()).build();
     }
 
 

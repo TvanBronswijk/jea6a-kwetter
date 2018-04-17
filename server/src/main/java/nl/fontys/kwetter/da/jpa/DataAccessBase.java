@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.da.jpa;
 
-import nl.fontys.kwetter.interceptor.Logged;
+import nl.fontys.kwetter.annotations.Logged;
 import nl.fontys.kwetter.model.Model;
 
 import javax.ejb.Stateless;

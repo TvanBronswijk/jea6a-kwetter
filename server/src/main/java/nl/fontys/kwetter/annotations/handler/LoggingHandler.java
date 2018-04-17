@@ -1,6 +1,6 @@
-package nl.fontys.kwetter.interceptor.handler;
+package nl.fontys.kwetter.annotations.handler;
 
-import nl.fontys.kwetter.interceptor.Logged;
+import nl.fontys.kwetter.annotations.Logged;
 import nl.fontys.kwetter.logging.SentryHandler;
 
 import javax.interceptor.AroundInvoke;

@@ -18,7 +18,7 @@ class Profile extends Component {
 
     getUser() {
         const username = this.props.username;
-        fetch(`/api/users/byname/${username}`)
+        fetch(`/api/users/name/${username}`)
             .then((response) => {
                 if (response.status === 200) {
                     return response.json();
