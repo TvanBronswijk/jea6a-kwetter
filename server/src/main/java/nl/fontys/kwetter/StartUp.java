@@ -34,9 +34,9 @@ public class StartUp {
     @PostConstruct
     private void initialize() {
         //Roles
-        Role adminRole = new Role("Administrator");
+        Role adminRole = new Role(Role.ADMIN);
         userService.createRole(adminRole);
-        Role userRole = new Role("User");
+        Role userRole = new Role(Role.USER);
         userService.createRole(userRole);
 
         //Admin User

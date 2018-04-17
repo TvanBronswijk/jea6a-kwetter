@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {Container, Dimmer, Header, Loader} from "semantic-ui-react";
+import {Container, Header} from "semantic-ui-react";
 import Post from "../../components/Post/Post";
+import AuthTokenService from "../../../services/auth/AuthTokenService";
+import PrefabLoader from "../../components/Loader/PrefabLoader";
 
 class Home extends Component {
 
@@ -13,20 +15,42 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.getPosts();
+        this.fetchPosts();
     }
 
-    getPosts() {
-        fetch('/api/posts')
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                throw new Error("Cannot reach API.")
-            })
-            .then((postData) => {
-                this.setState({data: postData, ready: true});
+    fetchPosts(){
+        AuthTokenService.fetch('/api/posts')
+            .then((posts) => {
+                this.setState({data: posts, ready: true});
+                return Promise.resolve(posts);
             });
+    }
+
+    postPost(){
+        let body = {
+          content: null,
+
+        };
+        AuthTokenService.fetch(`/api/posts`, {
+            method: 'POST',
+            body: body,
+        }).then(result => {
+            return Promise.resolve(result);
+        });
+    }
+
+    handleSubmit() {
+
+        window.location.reload();
+    }
+
+    //RENDERING
+    render() {
+        const {ready} = this.state;
+
+        return <Container text>
+            {ready ? this.renderPosts() : <PrefabLoader/>}
+        </Container>;
     }
 
     renderPosts() {
@@ -34,21 +58,12 @@ class Home extends Component {
         return <Post.Group>
             <Header as='h3' dividing>Kwets</Header>
             {
-                data ? data.map((post, i) => this.renderPost(i, post)) : false
+                data ? data.map((post, i) => <Post key={i} data={post}/>) : false
+            }
+            {
+                AuthTokenService.loggedIn() ? <Post.Reply /> : false
             }
         </Post.Group>
-    }
-
-    renderPost(key, post) {
-        return <Post key={key} data={post}/>;
-    }
-
-    render() {
-        const {ready} = this.state;
-
-        return <Container text>
-            {ready ? this.renderPosts() : <Dimmer page active><Loader>Loading Kwets</Loader></Dimmer>}
-        </Container>;
     }
 }
 

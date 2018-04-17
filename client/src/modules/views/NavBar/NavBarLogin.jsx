@@ -10,8 +10,6 @@ class NavBarLogin extends Component {
             username: null,
             password: null,
         };
-
-        this.auth = new AuthTokenService();
     }
 
     handleChange(e) {
@@ -24,7 +22,7 @@ class NavBarLogin extends Component {
 
     async handleItemClick() {
         const { username, password } = this.state;
-        await this.auth.login(username, password);
+        await AuthTokenService.login(username, password);
         window.location.reload();
     }
 

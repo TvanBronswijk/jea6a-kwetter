@@ -1,8 +1,8 @@
 package nl.fontys.kwetter.annotations.handler;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import nl.fontys.kwetter.annotations.JwtNeeded;
+import nl.fontys.kwetter.model.auth.Token;
+import nl.fontys.kwetter.service.auth.JsonWebTokenService;
 
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
@@ -23,11 +23,7 @@ public class JwtAuthorizationHandler implements ContainerRequestFilter {
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         try {
             String token = authorizationHeader.substring("Bearer".length()).trim();
-            JWT.require(Algorithm.HMAC256("secret"))
-                    .withIssuer("Kwetter")
-                    .build()
-                    .verify(token);
-            throw new Exception();
+            JsonWebTokenService.verifyToken(new Token(token));
         } catch (Exception e) {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
         }

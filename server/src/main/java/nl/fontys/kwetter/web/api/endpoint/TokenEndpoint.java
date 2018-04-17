@@ -3,6 +3,7 @@ package nl.fontys.kwetter.web.api.endpoint;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import nl.fontys.kwetter.model.auth.Login;
+import nl.fontys.kwetter.model.auth.Token;
 import nl.fontys.kwetter.model.user.User;
 import nl.fontys.kwetter.service.auth.JsonWebTokenService;
 import nl.fontys.kwetter.service.da.UserService;
@@ -16,10 +17,8 @@ import javax.inject.Inject;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.UnsupportedEncodingException;
 
-import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 
 @Path("tokens")
@@ -32,15 +31,14 @@ public class TokenEndpoint {
     @POST
     @Path("request")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response login(Login login) {
         User dbUser = userService.readUser(login.getUsername());
         if (userService.validatePassword(dbUser, login.getPassword())) {
             try {
-                String token = JsonWebTokenService.generateToken(dbUser);
-                return Response.ok()
-                        .header(AUTHORIZATION, "Bearer " + token)
-                        .build();
-            } catch (UnsupportedEncodingException | JsonProcessingException e) {
+                Token token = JsonWebTokenService.generateToken(dbUser);
+                return Response.ok().entity(token).build();
+            } catch (UnsupportedEncodingException e) {
                 return Response.status(UNAUTHORIZED).build();
             }
         }

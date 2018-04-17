@@ -1,6 +1,7 @@
 package nl.fontys.kwetter.web.faces;
 
 import nl.fontys.kwetter.model.post.Post;
+import nl.fontys.kwetter.model.user.Role;
 import nl.fontys.kwetter.model.user.User;
 import nl.fontys.kwetter.service.da.PostService;
 import nl.fontys.kwetter.service.da.UserService;
@@ -25,7 +26,7 @@ public class AdminController implements Serializable {
     }
 
     public void elevateUser(User user) {
-        user.addRole(userService.readRole(1L));
+        user.addRole(userService.readRole(Role.ADMIN));
         userService.updateUser(user);
     }
 

@@ -124,4 +124,8 @@ public class User implements Model {
     public void addRole(Role role) {
         this.roles.add(role);
     }
+
+    public boolean isAdmin(){
+        return roles.stream().anyMatch(role -> Role.ADMIN.equals(role.getName()));
+    }
 }

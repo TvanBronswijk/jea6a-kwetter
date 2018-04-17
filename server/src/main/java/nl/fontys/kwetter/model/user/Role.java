@@ -9,6 +9,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Role implements Model {
 
+    public static final String USER = "User";
+    public static final String ADMIN = "Administrator";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

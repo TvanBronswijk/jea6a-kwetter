@@ -4,4 +4,5 @@ import nl.fontys.kwetter.da.inf.Crud;
 import nl.fontys.kwetter.model.user.Role;
 
 public interface RoleDa extends Crud<Role> {
+    Role read(String name);
 }

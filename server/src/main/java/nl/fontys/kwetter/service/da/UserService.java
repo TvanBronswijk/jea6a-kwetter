@@ -89,6 +89,10 @@ public class UserService {
         return roles.read(id);
     }
 
+    public Role readRole(String name) {
+        return roles.read(name);
+    }
+
     public void updateRole(Role role) {
         roles.update(role);
     }

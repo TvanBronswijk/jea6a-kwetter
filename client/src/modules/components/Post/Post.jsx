@@ -2,19 +2,22 @@ import React, {Component} from 'react';
 import {Comment} from "semantic-ui-react";
 import PostGroup from "./PostGroup";
 import Moment from "react-moment";
+import AuthTokenService from "../../../services/auth/AuthTokenService";
+import PostReply from "./PostReply";
 
 class Post extends Component {
     static Group = PostGroup;
+    static Reply = PostReply;
 
     render() {
         const { data } = this.props;
 
         return <Comment>
-            <Comment.Avatar src={data.user.userDetails.imageURL} />
+            <Comment.Avatar src={data.user.userDetails ? data.user.userDetails.imageURL : false} />
             <Comment.Content>
-                <Comment.Author as='a' href={"/profile/"+data.user.username}>{data.user.username}</Comment.Author>
+                <Comment.Author as='a' href={"/profile/" + data.user.username}>{data.user.username}</Comment.Author>
                 <Comment.Metadata>
-                    <Moment format="dddd MMMM DD" unix>{data.timestamp/1000}</Moment>
+                    <Moment format="dddd, DD MMM YYYY HH:mm" unix>{data.timestamp/1000}</Moment>
                 </Comment.Metadata>
                 <Comment.Text>{data.content}</Comment.Text>
                 <Comment.Actions>

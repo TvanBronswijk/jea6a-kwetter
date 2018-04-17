@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {Comment} from "semantic-ui-react";
+import Post from "./Post";
 
-class Post extends Component {
+class PostGroup extends Component {
 
     render() {
-        return <Comment.Group minimal>
+        return <Comment.Group minimal size="large">
             {
                 this.props.children
             }
@@ -12,4 +13,4 @@ class Post extends Component {
     }
 }
 
-export default Post;
+export default PostGroup;

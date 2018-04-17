@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import User from "../../components/User/User";
-import {Container, Dimmer, Loader} from "semantic-ui-react";
+import {Container} from "semantic-ui-react";
+import AuthTokenService from "../../../services/auth/AuthTokenService";
+import PrefabLoader from "../../components/Loader/PrefabLoader";
 
 class Profile extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -13,33 +14,29 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        this.getUser();
+        this.fetchUser();
     }
 
-    getUser() {
+    fetchUser() {
         const username = this.props.username;
-        fetch(`/api/users/name/${username}`)
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                throw new Error("Cannot reach API.")
-            })
-            .then((userData) => {
-                this.setState({user: userData, ready: true});
+        AuthTokenService.fetch(`/api/users/name/${username}`)
+            .then((user) => {
+                this.setState({user: user, ready: true});
+                return Promise.resolve(user);
             });
+    }
+
+    //RENDERING
+    render() {
+        const {ready} = this.state;
+        return <Container>
+            {ready ? this.renderUser() : <PrefabLoader/>}
+        </Container>;
     }
 
     renderUser() {
         const {user} = this.state;
         return <User data={user}/>;
-    }
-
-    render() {
-        const {ready} = this.state;
-        return <Container>
-            {ready ? this.renderUser() : <Dimmer page active><Loader>Loading User</Loader></Dimmer>}
-        </Container>;
     }
 }
 

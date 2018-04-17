@@ -4,20 +4,19 @@ import decode from 'jwt-decode';
 export default class AuthTokenService {
 
     constructor() {
-        AuthTokenService.fetch = AuthTokenService.fetch.bind(this) // React binding stuff
-        this.login = this.login.bind(this)
+        AuthTokenService.fetch = AuthTokenService.fetch.bind(this); // React binding stuff
     }
 
-    login(username, password) {
+    static login(username, password) {
         // Get a token from api server using the fetch api
         let body = JSON.stringify({username, password});
         return AuthTokenService.fetch(`/api/tokens/request`, {
             method: 'POST',
             body: body,
         }).then(result => {
-            AuthTokenService.setToken(result); // Setting the token in localStorage
+            AuthTokenService.setToken(result.token); // Setting the token in localStorage
             return Promise.resolve(result);
-        })
+        });
     }
 
     static loggedIn() {
@@ -69,7 +68,7 @@ export default class AuthTokenService {
 
         return fetch(url, {headers, ...options})
             .then(AuthTokenService._checkStatus)
-            .then(response => response.text());
+            .then(response => response.json());
     }
 
     static _checkStatus(response) {
