@@ -11,6 +11,8 @@ import nl.fontys.kwetter.model.post.Post;
 import nl.fontys.kwetter.model.user.Role;
 import nl.fontys.kwetter.model.user.User;
 import nl.fontys.kwetter.model.user.UserDetails;
+import nl.fontys.kwetter.service.da.AuthenticationService;
+import nl.fontys.kwetter.service.da.CrudService;
 import nl.fontys.kwetter.service.da.PostService;
 import nl.fontys.kwetter.service.da.UserService;
 
@@ -25,6 +27,8 @@ import java.util.Date;
 public class StartUp {
 
     @Inject
+    private AuthenticationService authenticationService;
+    @Inject
     private UserService userService;
     @Inject
     private PostService postService;
@@ -35,15 +39,15 @@ public class StartUp {
     private void initialize() {
         //Roles
         Role adminRole = new Role(Role.ADMIN);
-        userService.createRole(adminRole);
+        authenticationService.createRole(adminRole);
         Role userRole = new Role(Role.USER);
-        userService.createRole(userRole);
+        authenticationService.createRole(userRole);
 
         //Admin User
         User adminUser = new User("admin", "admin", "admin@kwetter.nl", null);
         adminUser.addRole(userRole);
         adminUser.addRole(adminRole);
-        userService.createUser(adminUser);
+        userService.create(adminUser);
 
         //First User
         UserDetails firstUserDetails = new UserDetails("Original User",
@@ -53,13 +57,13 @@ public class StartUp {
                 "https://www.google.nl/");
         User firstUser = new User("first", "hunter2", "first@user.nl", firstUserDetails);
         firstUser.addRole(userRole);
-        userService.createUser(firstUser);
+        userService.create(firstUser);
 
         //First Post
         Post post = new Post(firstUser,
                 "This is the first post on Kwetter! #first",
                 new Date());
-        postService.createPost(post);
+        postService.create(post);
 
         realmViewService.createView();
     }

@@ -6,6 +6,7 @@ import nl.fontys.kwetter.model.auth.Login;
 import nl.fontys.kwetter.model.auth.Token;
 import nl.fontys.kwetter.model.user.User;
 import nl.fontys.kwetter.service.auth.JsonWebTokenService;
+import nl.fontys.kwetter.service.da.AuthenticationService;
 import nl.fontys.kwetter.service.da.UserService;
 
 import javax.ejb.Stateless;
@@ -26,6 +27,8 @@ import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 public class TokenEndpoint {
 
     @Inject
+    private AuthenticationService authenticationService;
+    @Inject
     private UserService userService;
 
     @POST
@@ -33,8 +36,8 @@ public class TokenEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(Login login) {
-        User dbUser = userService.readUser(login.getUsername());
-        if (userService.validatePassword(dbUser, login.getPassword())) {
+        User dbUser = userService.get(login.getUsername());
+        if (authenticationService.validatePassword(dbUser, login.getPassword())) {
             try {
                 Token token = JsonWebTokenService.generateToken(dbUser);
                 return Response.ok().entity(token).build();

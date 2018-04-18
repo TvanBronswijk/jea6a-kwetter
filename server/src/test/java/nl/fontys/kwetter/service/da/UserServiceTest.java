@@ -42,62 +42,21 @@ public class UserServiceTest {
         User object = new User();
         object.setId(1L);
         object.setPassword("password");
-        userService.createUser(object);
+        userService.create(object);
 
         //Find a User
-        assertThat(userService.readUser(1L).getUsername(), is(object.getUsername()));
+        assertThat(userService.get(1L).getUsername(), is(object.getUsername()));
 
         //Find All Users
-        assertThat(userService.readAllUsers().size(), is(1));
+        assertThat(userService.getAll().size(), is(1));
 
         //Update User
         object.setUsername("Test User");
-        userService.updateUser(object);
-        assertThat(userService.readUser(1L).getUsername(), is(object.getUsername()));
+        userService.update(object);
+        assertThat(userService.get(1L).getUsername(), is(object.getUsername()));
 
         //Delete User
-        userService.deleteUser(object);
-        assertThat(userService.readAllUsers().size(), is(0));
-    }
-
-
-    @Test
-    public void testUserDetails() {
-        //Create a UserDetails
-        UserDetails object = new UserDetails();
-        object.setId(1L);
-        userService.createUserDetails(object);
-
-        //Find a UserDetails
-        assertThat(userService.readUserDetails(1L), is(object));
-
-        //Update UserDetails
-        object.setName("Test UserDetails");
-        userService.updateUserDetails(object);
-        assertThat(userService.readUserDetails(1L), is(object));
-
-        //Delete UserDetails
-        userService.deleteUserDetails(object);
-        assertThat(userService.readUserDetails(1L), is(nullValue()));
-    }
-
-    @Test
-    public void testRoles() {
-        //Create a Role
-        Role object = new Role();
-        object.setId(1L);
-        userService.createRole(object);
-
-        //Find a Role
-        assertThat(userService.readRole(1L), is(object));
-
-        //Update Role
-        object.setName("Test Role");
-        userService.updateRole(object);
-        assertThat(userService.readRole(1L), is(object));
-
-        //Delete Role
-        userService.deleteRole(object);
-        assertThat(userService.readRole(1L), is(nullValue()));
+        userService.delete(object);
+        assertThat(userService.getAll().size(), is(0));
     }
 }

@@ -9,6 +9,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoggedIn: AuthTokenService.loggedIn(),
             ready: false,
             data: null,
         }
@@ -48,20 +49,22 @@ class Home extends Component {
     render() {
         const {ready} = this.state;
 
-        return <Container text>
+        return <Container>
             {ready ? this.renderPosts() : <PrefabLoader/>}
         </Container>;
     }
 
     renderPosts() {
-        const {data} = this.state;
+        const {isLoggedIn, data} = this.state;
         return <Post.Group>
             <Header as='h3' dividing>Kwets</Header>
             {
-                data ? data.map((post, i) => <Post key={i} data={post}/>) : false
+                isLoggedIn ? <Post.Reply /> : false
             }
+            <br/>
+            <br/>
             {
-                AuthTokenService.loggedIn() ? <Post.Reply /> : false
+                data ? data.map((post, i) => <Post key={i} data={post}/>) : false
             }
         </Post.Group>
     }

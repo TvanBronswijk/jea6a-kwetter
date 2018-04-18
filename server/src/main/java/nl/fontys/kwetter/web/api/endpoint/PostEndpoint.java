@@ -21,28 +21,28 @@ public class PostEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPosts() {
-        return Response.ok().entity(postService.readAllPosts()).build();
+        return Response.ok().entity(postService.getAll()).build();
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSinglePost(@PathParam("id") Long id) {
-        return Response.ok().entity(postService.readPost(id)).build();
+        return Response.ok().entity(postService.get(id)).build();
     }
 
     @GET
     @Path("user/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPostFromUser(@PathParam("id") Long id) {
-        return Response.ok().entity(postService.readPostsByUser(id)).build();
+        return Response.ok().entity(postService.getByUser(id)).build();
     }
 
     @POST
     @JwtNeeded
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createPost(Post post) {
-        postService.createPost(post);
+        postService.create(post);
         return Response.ok().build();
     }
 
@@ -50,7 +50,7 @@ public class PostEndpoint {
     @JwtNeeded
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updatePost(Post post) {
-        postService.updatePost(post);
+        postService.update(post);
         return Response.ok().build();
     }
 
@@ -60,7 +60,7 @@ public class PostEndpoint {
     public Response deletePost(@PathParam("id") Long id) {
         Post deletePost = new Post();
         deletePost.setId(id);
-        postService.deletePost(deletePost);
+        postService.delete(deletePost);
         return Response.ok().build();
     }
 
@@ -69,9 +69,9 @@ public class PostEndpoint {
     @Path("{id}/like")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response likePost(@PathParam("id") Long id, User user) {
-        Post post = postService.readPost(id);
+        Post post = postService.get(id);
         post.like(user);
-        postService.updatePost(post);
+        postService.update(post);
         return Response.ok().build();
     }
 }

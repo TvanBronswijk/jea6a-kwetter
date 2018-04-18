@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Comment} from "semantic-ui-react";
-import Post from "./Post";
+import "./Post.css";
 
 class PostGroup extends Component {
 

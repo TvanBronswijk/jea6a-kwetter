@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:b="http://bootsfaces.net/ui">
 <body>
 <ui:composition>
@@ -12,7 +12,9 @@
             <b:navLink value="Posts" href="/admin/posts"/>
         </b:navbarLinks>
         <b:navbarLinks pull="right">
-            <b:navLink icon="log-out" value="Log Out" href=""/>
+            <h:form class="navbar-form navbar-left hidden-md hidden-sm hidden-xs">
+                <b:commandButton look="danger" action="#{session.invalidate()}" value="Log out" icon="log-out" onclick="window.location.reload()"/>
+            </h:form>
         </b:navbarLinks>
     </b:navBar>
 </ui:composition>

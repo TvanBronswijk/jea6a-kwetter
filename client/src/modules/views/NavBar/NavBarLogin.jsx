@@ -28,6 +28,9 @@ class NavBarLogin extends Component {
 
     render() {
         return <Menu.Menu position='right'>
+            <Menu.Item as='a' href='/register'>
+                <h5>Not on Kwetter? Sign up!</h5>
+            </Menu.Item>
             <Menu.Item>
                 <Input icon='user' onChange={this.handleChange.bind(this)} placeholder='Username' name='username'/>
             </Menu.Item>

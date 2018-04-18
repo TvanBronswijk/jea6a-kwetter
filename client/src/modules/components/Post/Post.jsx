@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {Comment} from "semantic-ui-react";
 import PostGroup from "./PostGroup";
 import Moment from "react-moment";
-import AuthTokenService from "../../../services/auth/AuthTokenService";
 import PostReply from "./PostReply";
+import "./Post.css";
 
 class Post extends Component {
     static Group = PostGroup;

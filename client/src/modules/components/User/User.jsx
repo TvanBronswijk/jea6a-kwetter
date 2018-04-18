@@ -4,7 +4,7 @@ import {Button, Card, Icon, Image} from "semantic-ui-react";
 class User extends Component {
 
     render() {
-        const {data} = this.props;
+        const {data, followed} = this.props;
 
         return data.userDetails
             ? <Card>
@@ -25,14 +25,16 @@ class User extends Component {
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
-                    <span>{data.userDetails.web}</span>
-                    <Button size={'mini'} floated={'right'} compact primary toggle>Follow</Button>
+                    <span><a href={data.userDetails.web}>Website</a></span>
+                    <Button size={'mini'} floated={'right'} compact primary disabled={followed}>
+                        {followed ? "Followed" : "Follow"}
+                    </Button>
                 </Card.Content>
             </Card>
             : <Card>
                 <Card.Content>
                     <Card.Description>
-                        <Icon name="warning circle" />
+                        <Icon name="warning circle"/>
                         This user has no profile
                     </Card.Description>
                 </Card.Content>

@@ -38,7 +38,7 @@ public class LoginController implements Serializable {
             return;
         }
         Principal principal = request.getUserPrincipal();
-        this.user = userService.readUser(username);
+        this.user = userService.get(username);
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         sessionMap.put("User", user);

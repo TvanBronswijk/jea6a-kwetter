@@ -17,7 +17,7 @@ class NavBar extends Component {
 
     render() {
         const {isLoggedIn} = this.state;
-        return <Menu stackable inverted>
+        return <Menu borderless stackable inverted>
             <Menu.Item as={'a'} href={"/"} header>Kwetter</Menu.Item>
             <Menu.Item>
                 <Input icon='search'/>

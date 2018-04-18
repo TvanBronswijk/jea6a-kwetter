@@ -44,44 +44,24 @@ public class PostServiceTest {
         object.setUser(user);
         object.setContent("");
         object.setId(1L);
-        postService.createPost(object);
+        postService.create(object);
 
         //Find a Post
-        assertThat(postService.readPost(1L), is(object));
+        assertThat(postService.get(1L), is(object));
 
         //Posts by user
-        assertThat(postService.readPostsByUser(1L).size(), is(1));
+        assertThat(postService.getByUser(1L).size(), is(1));
 
         //Find All Posts
-        assertThat(postService.readAllPosts().size(), is(1));
+        assertThat(postService.getAll().size(), is(1));
 
         //Update Post
         object.setContent("Test Post");
-        postService.updatePost(object);
-        assertThat(postService.readPost(1L), is(object));
+        postService.update(object);
+        assertThat(postService.get(1L), is(object));
 
         //Delete Post
-        postService.deletePost(object);
-        assertThat(postService.readAllPosts().size(), is(0));
-    }
-
-    @Test
-    public void testTags() {
-        //Create a Tag
-        Tag object = new Tag();
-        object.setId(1L);
-        postService.createTag(object);
-
-        //Find a Tag
-        assertThat(postService.readTag(1L), is(object));
-
-        //Update Tag
-        object.setName("Test Tag");
-        postService.updateTag(object);
-        assertThat(postService.readTag(1L), is(object));
-
-        //Delete Tag
-        postService.deleteTag(object);
-        assertThat(postService.readTag(1L), is(nullValue()));
+        postService.delete(object);
+        assertThat(postService.getAll().size(), is(0));
     }
 }
