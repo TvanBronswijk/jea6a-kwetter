@@ -14,7 +14,7 @@ import java.util.Collection;
 
 @Path("users")
 @Stateless
-public class UserEndpoint {
+public class UserEndpoint extends BaseEndpoint {
 
     @Inject
     private UserService userService;
@@ -23,9 +23,7 @@ public class UserEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllUsers() {
         Collection<User> content = userService.getAll();
-        return Response.ok()
-                .entity(content)
-                .build();
+        return ok(content);
     }
 
     @GET
@@ -33,9 +31,7 @@ public class UserEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSingleUser(@PathParam("id") Long id) {
         User content = userService.get(id);
-        return Response.ok()
-                .entity(content)
-                .build();
+        return ok(content);
     }
 
     @GET
@@ -43,9 +39,7 @@ public class UserEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSingleUser(@PathParam("name") String name) {
         User content = userService.get(name);
-        return Response.ok()
-                .entity(content)
-                .build();
+        return ok(content);
     }
 
     @POST
@@ -53,8 +47,7 @@ public class UserEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUser(User user) {
         userService.create(user);
-        return Response.ok()
-                .build();
+        return ok();
     }
 
     @PUT
@@ -62,8 +55,7 @@ public class UserEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateUser(User user) {
         userService.update(user);
-        return Response.ok()
-                .build();
+        return ok();
     }
 
     @DELETE
@@ -73,8 +65,7 @@ public class UserEndpoint {
         User deleteUser = new User();
         deleteUser.setId(id);
         userService.delete(deleteUser);
-        return Response.ok()
-                .build();
+        return ok();
     }
 
     @PUT
@@ -85,8 +76,7 @@ public class UserEndpoint {
         User user = userService.get(id);
         user.follow(follower);
         userService.update(user);
-        return Response.ok()
-                .build();
+        return ok();
     }
 
     @GET
@@ -94,9 +84,7 @@ public class UserEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSingleUserDetails(@PathParam("id") Long id) {
         UserDetails content = userService.get(id).getUserDetails();
-        return Response.ok()
-                .entity(content)
-                .build();
+        return ok(content);
     }
 
 

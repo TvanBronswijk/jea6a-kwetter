@@ -1,6 +1,10 @@
 package nl.fontys.kwetter.service.da;
 
 import nl.fontys.kwetter.da.inf.user.RoleDa;
+import nl.fontys.kwetter.da.inf.user.UserDa;
+import nl.fontys.kwetter.exceptions.InvalidPasswordException;
+import nl.fontys.kwetter.exceptions.NoSuchRoleException;
+import nl.fontys.kwetter.model.auth.Login;
 import nl.fontys.kwetter.model.user.Role;
 import nl.fontys.kwetter.model.user.User;
 import nl.fontys.kwetter.service.helper.AuthenticationUtil;
@@ -16,26 +20,27 @@ import java.security.NoSuchAlgorithmException;
 public class AuthenticationService {
 
     @Inject
+    private UserDa users;
+    @Inject
     private RoleDa roles;
 
     public void createRole(Role role) {
         roles.create(role);
     }
 
-    public Role getRole(String name) throws Exception {
+    public Role getRole(String name) throws NoSuchRoleException {
         Role result = roles.read(name);
         if (result == null) {
-            throw new Exception();
+            throw new NoSuchRoleException();
         }
         return result;
     }
 
-    public boolean validatePassword(User user, String password) {
-        try {
-            return user.getPassword().equals(AuthenticationUtil.encodeSHA256(password));
-        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
+    public User validate(Login login) throws InvalidPasswordException {
+        User user = users.read(login.getUsername());
+        if(user.getPassword().equals(login.getEncodedPassword())){
+           return user;
         }
-        return false;
+        throw new InvalidPasswordException();
     }
 }

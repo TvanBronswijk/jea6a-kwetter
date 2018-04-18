@@ -20,7 +20,7 @@ class NavBar extends Component {
         return <Menu borderless stackable inverted>
             <Menu.Item as={'a'} href={"/"} header>Kwetter</Menu.Item>
             <Menu.Item>
-                <Input icon='search'/>
+                <Input icon='search' placeholder="Search..."/>
             </Menu.Item>
             { isLoggedIn ? <NavBar.Logout/> : <NavBar.Login/>}
         </Menu>;

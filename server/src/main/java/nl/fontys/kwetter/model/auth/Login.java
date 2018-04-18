@@ -1,6 +1,10 @@
 package nl.fontys.kwetter.model.auth;
 
+import nl.fontys.kwetter.service.helper.AuthenticationUtil;
+
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 @XmlRootElement
 public class Login {
@@ -21,6 +25,15 @@ public class Login {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEncodedPassword() {
+        try {
+            return AuthenticationUtil.encodeSHA256(password);
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

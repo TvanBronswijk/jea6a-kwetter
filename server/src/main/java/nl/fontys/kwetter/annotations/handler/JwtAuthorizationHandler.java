@@ -19,7 +19,6 @@ public class JwtAuthorizationHandler implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) {
-        // Get the HTTP Authorization header from the request
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         try {
             String token = authorizationHeader.substring("Bearer".length()).trim();

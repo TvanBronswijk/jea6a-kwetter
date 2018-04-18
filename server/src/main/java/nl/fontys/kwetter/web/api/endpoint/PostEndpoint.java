@@ -10,10 +10,11 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 
 @Path("posts")
 @Stateless
-public class PostEndpoint {
+public class PostEndpoint extends BaseEndpoint {
 
     @Inject
     private PostService postService;
@@ -21,21 +22,24 @@ public class PostEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPosts() {
-        return Response.ok().entity(postService.getAll()).build();
+        Collection<Post> content = postService.getAll();
+        return ok(content);
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSinglePost(@PathParam("id") Long id) {
-        return Response.ok().entity(postService.get(id)).build();
+        Post content = postService.get(id);
+        return ok(content);
     }
 
     @GET
     @Path("user/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPostFromUser(@PathParam("id") Long id) {
-        return Response.ok().entity(postService.getByUser(id)).build();
+    public Response getPostsFromUser(@PathParam("id") Long id) {
+        Collection<Post> content = postService.getByUser(id);
+        return ok(content);
     }
 
     @POST
@@ -43,7 +47,7 @@ public class PostEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createPost(Post post) {
         postService.create(post);
-        return Response.ok().build();
+        return ok();
     }
 
     @PUT
@@ -51,7 +55,7 @@ public class PostEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updatePost(Post post) {
         postService.update(post);
-        return Response.ok().build();
+        return ok();
     }
 
     @DELETE
@@ -61,7 +65,7 @@ public class PostEndpoint {
         Post deletePost = new Post();
         deletePost.setId(id);
         postService.delete(deletePost);
-        return Response.ok().build();
+        return ok();
     }
 
     @PUT
@@ -72,6 +76,6 @@ public class PostEndpoint {
         Post post = postService.get(id);
         post.like(user);
         postService.update(post);
-        return Response.ok().build();
+        return ok();
     }
 }
