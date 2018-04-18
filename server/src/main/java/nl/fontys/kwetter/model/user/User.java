@@ -5,6 +5,7 @@ import nl.fontys.kwetter.model.Model;
 import nl.fontys.kwetter.model.post.Post;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,9 +19,11 @@ public class User implements Model {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(unique = true)
     private String username;
 
+    @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles;
 
@@ -35,8 +38,10 @@ public class User implements Model {
     @JsonIgnore
     private Collection<Post> posts;
 
+    @NotNull
     @JsonIgnore
     private String password;
+    @NotNull
     private String email;
 
     public User() {

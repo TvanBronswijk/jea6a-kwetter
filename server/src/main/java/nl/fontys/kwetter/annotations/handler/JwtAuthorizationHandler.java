@@ -11,6 +11,7 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
+import java.io.UnsupportedEncodingException;
 
 @Provider
 @JwtNeeded
@@ -23,8 +24,10 @@ public class JwtAuthorizationHandler implements ContainerRequestFilter {
         try {
             String token = authorizationHeader.substring("Bearer".length()).trim();
             JsonWebTokenService.verifyToken(new Token(token));
-        } catch (Exception e) {
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+        } catch (UnsupportedEncodingException e) {
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
+                    .entity(e)
+                    .build());
         }
     }
 }

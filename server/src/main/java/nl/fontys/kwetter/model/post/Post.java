@@ -5,6 +5,7 @@ import nl.fontys.kwetter.model.Model;
 import nl.fontys.kwetter.model.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +18,7 @@ public class Post implements Model {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne
     private User user;
 
@@ -31,7 +33,9 @@ public class Post implements Model {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Collection<Tag> tags;
 
+    @NotNull
     private String content;
+    @NotNull
     private Date timestamp;
 
     public Post() {

@@ -21,7 +21,7 @@ public class PostEndpoint extends BaseEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllPosts() {
+    public Response getAll() {
         Collection<Post> content = postService.getAll();
         return ok(content);
     }
@@ -29,7 +29,7 @@ public class PostEndpoint extends BaseEndpoint {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getSinglePost(@PathParam("id") Long id) {
+    public Response get(@PathParam("id") Long id) {
         Post content = postService.get(id);
         return ok(content);
     }
@@ -37,7 +37,7 @@ public class PostEndpoint extends BaseEndpoint {
     @GET
     @Path("user/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPostsFromUser(@PathParam("id") Long id) {
+    public Response getFromUser(@PathParam("id") Long id) {
         Collection<Post> content = postService.getByUser(id);
         return ok(content);
     }
@@ -45,7 +45,7 @@ public class PostEndpoint extends BaseEndpoint {
     @POST
     @JwtNeeded
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createPost(Post post) {
+    public Response create(Post post) {
         postService.create(post);
         return ok();
     }
@@ -53,7 +53,7 @@ public class PostEndpoint extends BaseEndpoint {
     @PUT
     @JwtNeeded
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updatePost(Post post) {
+    public Response update(Post post) {
         postService.update(post);
         return ok();
     }
@@ -61,7 +61,7 @@ public class PostEndpoint extends BaseEndpoint {
     @DELETE
     @JwtNeeded
     @Path("{id}")
-    public Response deletePost(@PathParam("id") Long id) {
+    public Response delete(@PathParam("id") Long id) {
         Post deletePost = new Post();
         deletePost.setId(id);
         postService.delete(deletePost);
@@ -72,7 +72,7 @@ public class PostEndpoint extends BaseEndpoint {
     @JwtNeeded
     @Path("{id}/like")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response likePost(@PathParam("id") Long id, User user) {
+    public Response like(@PathParam("id") Long id, User user) {
         Post post = postService.get(id);
         post.like(user);
         postService.update(post);

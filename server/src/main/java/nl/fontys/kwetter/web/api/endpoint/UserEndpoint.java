@@ -21,7 +21,7 @@ public class UserEndpoint extends BaseEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllUsers() {
+    public Response getAll() {
         Collection<User> content = userService.getAll();
         return ok(content);
     }
@@ -29,7 +29,7 @@ public class UserEndpoint extends BaseEndpoint {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getSingleUser(@PathParam("id") Long id) {
+    public Response get(@PathParam("id") Long id) {
         User content = userService.get(id);
         return ok(content);
     }
@@ -37,7 +37,7 @@ public class UserEndpoint extends BaseEndpoint {
     @GET
     @Path("name/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getSingleUser(@PathParam("name") String name) {
+    public Response get(@PathParam("name") String name) {
         User content = userService.get(name);
         return ok(content);
     }
@@ -45,7 +45,7 @@ public class UserEndpoint extends BaseEndpoint {
     @POST
     @JwtNeeded
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createUser(User user) {
+    public Response create(User user) {
         userService.create(user);
         return ok();
     }
@@ -53,7 +53,7 @@ public class UserEndpoint extends BaseEndpoint {
     @PUT
     @JwtNeeded
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateUser(User user) {
+    public Response update(User user) {
         userService.update(user);
         return ok();
     }
@@ -61,7 +61,7 @@ public class UserEndpoint extends BaseEndpoint {
     @DELETE
     @JwtNeeded
     @Path("{id}")
-    public Response deleteUser(@PathParam("id") Long id) {
+    public Response delete(@PathParam("id") Long id) {
         User deleteUser = new User();
         deleteUser.setId(id);
         userService.delete(deleteUser);
@@ -72,7 +72,7 @@ public class UserEndpoint extends BaseEndpoint {
     @JwtNeeded
     @Path("{id}/follow")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response followUser(@PathParam("id") Long id, User follower) {
+    public Response follow(@PathParam("id") Long id, User follower) {
         User user = userService.get(id);
         user.follow(follower);
         userService.update(user);
@@ -82,7 +82,7 @@ public class UserEndpoint extends BaseEndpoint {
     @GET
     @Path("{id}/details")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getSingleUserDetails(@PathParam("id") Long id) {
+    public Response getUserDetails(@PathParam("id") Long id) {
         UserDetails content = userService.get(id).getUserDetails();
         return ok(content);
     }

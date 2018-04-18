@@ -8,6 +8,9 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 
+/**
+ * Log whenever this method is called to Sentry.io
+ */
 @InterceptorBinding
 @Retention(RetentionPolicy.RUNTIME)
 @Target( {METHOD, TYPE})

@@ -3,6 +3,7 @@ package nl.fontys.kwetter.model.user;
 import nl.fontys.kwetter.model.Model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -16,6 +17,7 @@ public class Role implements Model {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(unique = true)
     private String name;
 

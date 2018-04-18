@@ -13,11 +13,11 @@ import java.lang.reflect.Method;
 public class LoggingHandler {
 
     @AroundInvoke
-    public Object Log(InvocationContext ctx) throws Exception {
-        Method method = ctx.getMethod();
+    public Object Log(InvocationContext context) {
+        Method method = context.getMethod();
         SentryHandler.log(method.getDeclaringClass() + "." + method.getName() + "() called.");
         try {
-            return ctx.proceed();
+            return context.proceed();
         } catch (Exception e) {
             return null;
         }

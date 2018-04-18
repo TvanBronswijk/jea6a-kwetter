@@ -8,6 +8,9 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 
+/**
+ * This method or class requires a JWT in the authorization header
+ */
 @NameBinding
 @Retention(RetentionPolicy.RUNTIME)
 @Target( {TYPE, METHOD})

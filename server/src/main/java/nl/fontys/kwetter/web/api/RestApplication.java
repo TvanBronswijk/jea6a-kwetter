@@ -10,7 +10,7 @@ import javax.ws.rs.core.Application;
 import java.util.Set;
 
 @ApplicationPath("api")
-public class RestBase extends Application {
+public class RestApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
