@@ -8,14 +8,19 @@ import nl.fontys.kwetter.service.da.UserService;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.Collection;
 
 @Path("users")
 @Stateless
 public class UserEndpoint extends BaseEndpoint {
 
+    @Context
+    private UriInfo uriInfo;
     @Inject
     private UserService userService;
 
@@ -46,8 +51,9 @@ public class UserEndpoint extends BaseEndpoint {
     @JwtNeeded
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(User user) {
-        userService.create(user);
-        return ok();
+        User result = userService.create(user);
+        URI location = uriInfo.getBaseUriBuilder().path(String.format("%s", result.getId())).build();
+        return created(location);
     }
 
     @PUT

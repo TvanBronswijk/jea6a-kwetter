@@ -5,10 +5,13 @@ import nl.fontys.kwetter.model.Model;
 
 import javax.ejb.Stateless;
 import javax.transaction.Transactional;
+import java.util.logging.Logger;
 
 @Transactional
 @Stateless
 public abstract class CrudService<T extends Model> {
+
+    private static final Logger LOGGER = Logger.getLogger(CrudService.class.getName());
 
     protected abstract Crud<T> getDao();
 
@@ -16,16 +19,19 @@ public abstract class CrudService<T extends Model> {
         return getDao().read(id);
     }
 
-    public void create(T entity) {
+    public T create(T entity) {
         getDao().create(entity);
+        return entity;
     }
 
-    public void update(T entity) {
+    public T update(T entity) {
         getDao().update(entity);
+        return entity;
     }
 
-    public void delete(T entity) {
+    public T delete(T entity) {
         getDao().delete(entity);
+        return entity;
     }
 
 

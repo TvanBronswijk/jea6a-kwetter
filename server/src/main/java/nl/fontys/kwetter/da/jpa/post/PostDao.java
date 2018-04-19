@@ -5,7 +5,9 @@ import nl.fontys.kwetter.da.jpa.DataAccessBase;
 import nl.fontys.kwetter.model.post.Post;
 
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
@@ -15,14 +17,14 @@ public class PostDao extends DataAccessBase<Post> implements PostDa {
     }
 
     @Override
-    public List<Post> readAll() {
-        Query query = entityManager.createQuery("SELECT p FROM Post p");
+    public List<Post> readAll() throws NoResultException {
+        TypedQuery<Post> query = entityManager.createQuery("SELECT p FROM Post p", Post.class);
         return query.getResultList();
     }
 
     @Override
-    public List<Post> readByUserId(Long userId) {
-        Query query = entityManager.createQuery("SELECT p FROM Post p WHERE p.user.id = :user_id");
+    public List<Post> readByUserId(Long userId) throws NoResultException {
+        TypedQuery<Post> query = entityManager.createQuery("SELECT p FROM Post p WHERE p.user.id = :user_id", Post.class);
         query.setParameter("user_id", userId);
         return query.getResultList();
     }

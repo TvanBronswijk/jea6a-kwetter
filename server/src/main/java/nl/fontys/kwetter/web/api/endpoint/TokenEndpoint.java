@@ -1,6 +1,5 @@
 package nl.fontys.kwetter.web.api.endpoint;
 
-import nl.fontys.kwetter.exceptions.InvalidPasswordException;
 import nl.fontys.kwetter.model.auth.Login;
 import nl.fontys.kwetter.model.auth.Token;
 import nl.fontys.kwetter.model.user.User;
@@ -15,7 +14,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.UnsupportedEncodingException;
 
 @Path("tokens")
 @Stateless
@@ -28,12 +26,12 @@ public class TokenEndpoint extends BaseEndpoint {
     @Path("request")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response login(Login login) {
+    public Response request(Login login) {
         try {
             User user = authenticationService.validate(login);
             Token token = JsonWebTokenService.generateToken(user);
             return ok(token);
-        } catch (InvalidPasswordException | UnsupportedEncodingException e) {
+        } catch (Exception e) {
             return unauthorized();
         }
     }

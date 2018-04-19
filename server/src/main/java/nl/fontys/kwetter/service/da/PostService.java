@@ -29,10 +29,11 @@ public class PostService extends CrudService<Post>{
     }
 
     @Override
-    public void create(Post post) {
+    public Post create(Post post) {
         post.setTimestamp(new Date());
         post.setTags(tagParser.parseString(post.getContent()));
         posts.create(post);
+        return post;
     }
 
     public List<Post> getAll() {

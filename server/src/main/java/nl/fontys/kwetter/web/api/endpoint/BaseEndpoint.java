@@ -135,6 +135,15 @@ public abstract class BaseEndpoint {
     }
 
     /**
+     * Creates a {@link javax.ws.rs.core.Response} object with status 303 - SEE OTHER
+     * @return 200 - OK
+     */
+    protected Response redirect(URI location) {
+        return Response.seeOther(location)
+                .build();
+    }
+
+    /**
      * Creates a {@link javax.ws.rs.core.Response} object with status 401 - UNAUTHORIZED
      * @return 401 - UNAUTHORIZED
      */

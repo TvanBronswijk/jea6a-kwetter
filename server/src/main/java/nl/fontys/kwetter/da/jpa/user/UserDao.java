@@ -5,6 +5,7 @@ import nl.fontys.kwetter.da.jpa.DataAccessBase;
 import nl.fontys.kwetter.model.user.User;
 
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -16,15 +17,15 @@ public class UserDao extends DataAccessBase<User> implements UserDa {
     }
 
     @Override
-    public User read(String username) {
+    public User read(String username) throws NoResultException {
         TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
         query.setParameter("username", username);
         return query.getSingleResult();
     }
 
     @Override
-    public List<User> readAll() {
-        Query query = entityManager.createQuery("SELECT u FROM User u");
+    public List<User> readAll() throws NoResultException {
+        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
         return query.getResultList();
     }
 }

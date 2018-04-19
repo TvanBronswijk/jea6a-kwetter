@@ -7,13 +7,11 @@ import nl.fontys.kwetter.exceptions.NoSuchRoleException;
 import nl.fontys.kwetter.model.auth.Login;
 import nl.fontys.kwetter.model.user.Role;
 import nl.fontys.kwetter.model.user.User;
-import nl.fontys.kwetter.service.helper.AuthenticationUtil;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 
 @Transactional
 @Stateless
@@ -36,11 +34,12 @@ public class AuthenticationService {
         return result;
     }
 
-    public User validate(Login login) throws InvalidPasswordException {
+    public User validate(Login login) throws InvalidPasswordException, NoResultException {
         User user = users.read(login.getUsername());
-        if(user.getPassword().equals(login.getEncodedPassword())){
-           return user;
+        if (user.getPassword().equals(login.getEncodedPassword())) {
+            return user;
         }
         throw new InvalidPasswordException();
+
     }
 }

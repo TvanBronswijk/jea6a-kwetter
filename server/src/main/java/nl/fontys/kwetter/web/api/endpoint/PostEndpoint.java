@@ -8,14 +8,19 @@ import nl.fontys.kwetter.service.da.PostService;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.Collection;
 
 @Path("posts")
 @Stateless
 public class PostEndpoint extends BaseEndpoint {
 
+    @Context
+    private UriInfo uriInfo;
     @Inject
     private PostService postService;
 
@@ -46,8 +51,9 @@ public class PostEndpoint extends BaseEndpoint {
     @JwtNeeded
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Post post) {
-        postService.create(post);
-        return ok();
+        Post result = postService.create(post);
+        URI location = uriInfo.getBaseUriBuilder().path(String.format("%s", result.getId())).build();
+        return Response.created(location).build();
     }
 
     @PUT

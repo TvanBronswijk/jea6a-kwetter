@@ -4,6 +4,7 @@ import nl.fontys.kwetter.da.inf.Crud;
 import nl.fontys.kwetter.da.inf.user.RoleDa;
 import nl.fontys.kwetter.da.inf.user.UserDa;
 import nl.fontys.kwetter.da.inf.user.UserDetailsDa;
+import nl.fontys.kwetter.da.jpa.DataAccessBase;
 import nl.fontys.kwetter.model.user.Role;
 import nl.fontys.kwetter.model.user.User;
 import nl.fontys.kwetter.model.user.UserDetails;
@@ -15,10 +16,14 @@ import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Transactional
 @Stateless
 public class UserService extends CrudService<User> {
+
+    private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
 
     @Inject
     private UserDa users;
@@ -30,13 +35,14 @@ public class UserService extends CrudService<User> {
     }
 
     @Override
-    public void create(User user) {
+    public User create(User user) {
         try {
             user.setPassword(AuthenticationUtil.encodeSHA256(user.getPassword()));
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, e.getMessage());
         }
         users.create(user);
+        return user;
     }
 
     public User get(String username) {
