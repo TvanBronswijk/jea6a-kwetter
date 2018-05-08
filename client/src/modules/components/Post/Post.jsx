@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Comment} from "semantic-ui-react";
+import {Button, Comment} from "semantic-ui-react";
 import PostGroup from "./PostGroup";
 import Moment from "react-moment";
 import PostReply from "./PostReply";
@@ -9,9 +9,15 @@ class Post extends Component {
     static Group = PostGroup;
     static Reply = PostReply;
 
-    render() {
-        const { data } = this.props;
+    onClick() {
+        const {data, onLike} = this.props;
+        if(onLike) {
+            onLike(data);
+        }
+    }
 
+    render() {
+        const { data, like } = this.props;
         return <Comment>
             <Comment.Avatar src={data.user.userDetails ? data.user.userDetails.imageURL : false} />
             <Comment.Content>
@@ -20,8 +26,11 @@ class Post extends Component {
                     <Moment format="dddd, DD MMM YYYY HH:mm" unix>{data.timestamp/1000}</Moment>
                 </Comment.Metadata>
                 <Comment.Text>{data.content}</Comment.Text>
+                <Comment.Metadata>
+                    <span>Likes: {data.likeCount}</span>
+                </Comment.Metadata>
                 <Comment.Actions>
-                    <Comment.Action>Like</Comment.Action>
+                    { like ? <Comment.Action icon='like' basic compact size='tiny' as={Button} onClick={this.onClick.bind(this)} label='Like' /> : false }
                 </Comment.Actions>
             </Comment.Content>
         </Comment>;

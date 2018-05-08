@@ -3,15 +3,22 @@ import {Button, Card, Icon, Image} from "semantic-ui-react";
 
 class User extends Component {
 
+    onClick(){
+        const {data, onFollow} = this.props;
+        if(onFollow){
+            onFollow(data);
+        }
+    }
+
     render() {
-        const {data, followed} = this.props;
+        const {data, followed, loggedInUser} = this.props;
 
         return data.userDetails
             ? <Card>
-                <Image src={data.userDetails.imageURL}/>
+                <Image src={data.userDetails.imageURL || "http://alarishealth.com/wp-content/uploads/2014/06/no-user.png"}/>
                 <Card.Content>
                     <Card.Header>
-                        {data.username}
+                        @{data.username}
                     </Card.Header>
                     <Card.Meta>
                         <span>{data.userDetails.name}</span>
@@ -26,9 +33,16 @@ class User extends Component {
                 </Card.Content>
                 <Card.Content extra>
                     <span><a href={data.userDetails.web}>Website</a></span>
-                    <Button size={'mini'} floated={'right'} compact primary disabled={followed}>
-                        {followed ? "Followed" : "Follow"}
-                    </Button>
+                    {
+                        data.username === loggedInUser.username
+                            ? <Button size={'mini'} floated={'right'} compact primary href='/me/edit'>
+                                Edit
+                            </Button>
+                            : <Button size={'mini'} floated={'right'} compact primary onClick={this.onClick.bind(this)}
+                                      disabled={followed}>
+                                {followed ? "Followed" : "Follow"}
+                            </Button>
+                    }
                 </Card.Content>
             </Card>
             : <Card>

@@ -20,4 +20,14 @@ public class UserList extends TestDataAccessBase<User> implements UserDa {
         result.removeAll(Collections.singleton(null));
         return result;
     }
+
+    @Override
+    public List<User> readFollowersFromUser(String username) {
+        return null;
+    }
+
+    @Override
+    public List<User> readFollowingFromUser(String username) {
+        return null;
+    }
 }

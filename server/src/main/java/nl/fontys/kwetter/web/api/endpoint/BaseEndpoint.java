@@ -1,14 +1,58 @@
 package nl.fontys.kwetter.web.api.endpoint;
 
-import javax.ejb.Stateless;
-import javax.ws.rs.core.Response;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import nl.fontys.kwetter.model.auth.Token;
+import nl.fontys.kwetter.model.user.User;
+import nl.fontys.kwetter.service.auth.JsonWebTokenService;
+import nl.fontys.kwetter.service.da.AuthenticationService;
+import nl.fontys.kwetter.service.da.PostService;
+import nl.fontys.kwetter.service.da.UserService;
 
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
+
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 
 import static javax.ws.rs.core.Response.Status.*;
 
 @Stateless
 public abstract class BaseEndpoint {
+
+    @Context
+    protected UriInfo uriInfo;
+    @Context
+    protected SecurityContext securityContext;
+
+    @Inject
+    protected AuthenticationService authenticationService;
+    @Inject
+    protected UserService userService;
+    @Inject
+    protected PostService postService;
+
+    /**
+     * Retrieve the user from the JWT.
+     * @return the {@link User} object.
+     */
+    protected User user(String authHeader) {
+        String token = authHeader.substring("Bearer".length()).trim();
+        DecodedJWT decodedJWT = null;
+        try {
+            decodedJWT = JsonWebTokenService.parseToken(new Token(token));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        if (decodedJWT != null) {
+            return userService.get(decodedJWT.getClaim("username").asString());
+        }
+        return null;
+    }
+
 
     /**
      * Creates a {@link javax.ws.rs.core.Response} object with status 202 - ACCEPTED

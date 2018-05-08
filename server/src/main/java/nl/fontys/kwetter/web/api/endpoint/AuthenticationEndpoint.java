@@ -1,6 +1,7 @@
 package nl.fontys.kwetter.web.api.endpoint;
 
 import nl.fontys.kwetter.model.auth.Login;
+import nl.fontys.kwetter.model.auth.Register;
 import nl.fontys.kwetter.model.auth.Token;
 import nl.fontys.kwetter.model.user.User;
 import nl.fontys.kwetter.service.auth.JsonWebTokenService;
@@ -15,15 +16,25 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("tokens")
+@Path("auth")
 @Stateless
-public class TokenEndpoint extends BaseEndpoint {
-
-    @Inject
-    private AuthenticationService authenticationService;
+public class AuthenticationEndpoint extends BaseEndpoint {
 
     @POST
-    @Path("request")
+    @Path("register")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response register(Register register) {
+        try {
+            User result = authenticationService.register(register);
+            return ok(result);
+        } catch (Exception e) {
+            return unauthorized();
+        }
+    }
+
+    @POST
+    @Path("token/request")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response request(Login login) {

@@ -1,5 +1,6 @@
 //src: https://hptechblogs.com/using-json-web-token-react/
 import decode from 'jwt-decode';
+import JSOG from 'jsog';
 
 export default class AuthTokenService {
 
@@ -11,7 +12,7 @@ export default class AuthTokenService {
 
     static login(username, password) {
         let body = JSON.stringify({username, password});
-        return AuthTokenService.fetch(`/api/tokens/request`, {
+        return AuthTokenService.fetch(`/api/auth/token/request`, {
             method: 'POST',
             body: body,
         }).then(result => {
@@ -68,7 +69,8 @@ export default class AuthTokenService {
 
         return fetch(url, {headers, ...options})
             .then(AuthTokenService._checkStatus)
-            .then(response => response.json());
+            .then(response => response.json())
+            .then(json => JSOG.decode(json));
     }
 
     static _checkStatus(response) {

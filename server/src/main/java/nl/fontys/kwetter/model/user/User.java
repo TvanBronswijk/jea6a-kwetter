@@ -1,6 +1,9 @@
 package nl.fontys.kwetter.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+import com.voodoodyne.jackson.jsog.JSOGRefDeserializer;
 import nl.fontys.kwetter.model.Model;
 import nl.fontys.kwetter.model.post.Post;
 
@@ -9,10 +12,15 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
 @Table(name = "UserEntity")
 @XmlRootElement
+@JsonIdentityInfo(generator=JSOGGenerator.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Model {
 
     @Id
@@ -25,18 +33,17 @@ public class User implements Model {
 
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> roles;
+    private Set<Role> roles;
 
-    @OneToOne(cascade = {CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.ALL})
     private UserDetails userDetails;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Collection<User> followers;
+    private Set<User> followers;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.REMOVE})
     @JsonIgnore
-    private Collection<Post> posts;
+    private Set<Post> posts;
 
     @NotNull
     @JsonIgnore
@@ -52,9 +59,9 @@ public class User implements Model {
         this.userDetails = userDetails;
         this.password = password;
         this.email = email;
-        roles = new ArrayList<>();
-        posts = new ArrayList<>();
-        followers = new ArrayList<>();
+        roles = new HashSet<>();
+        posts = new HashSet<>();
+        followers = new HashSet<>();
     }
 
     @Override
@@ -98,19 +105,19 @@ public class User implements Model {
         this.userDetails = userDetails;
     }
 
-    public Collection<User> getFollowers() {
+    public Set<User> getFollowers() {
         return followers;
     }
 
-    public void setFollowers(Collection<User> follow) {
+    public void setFollowers(Set<User> follow) {
         followers = follow;
     }
 
-    public Collection<Post> getPosts() {
+    public Set<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(Collection<Post> posts) {
+    public void setPosts(Set<Post> posts) {
         this.posts = posts;
     }
 
@@ -118,11 +125,11 @@ public class User implements Model {
         followers.add(follower);
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -130,6 +137,7 @@ public class User implements Model {
         this.roles.add(role);
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public boolean isAdmin(){
         return roles.stream().anyMatch(role -> Role.ADMIN.equals(role.getName()));
     }

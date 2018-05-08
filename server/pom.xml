@@ -28,6 +28,7 @@
         <!-- Dependency Versions -->
         <java.ee.version>8.0</java.ee.version>
         <jersey.jackson.version>2.26</jersey.jackson.version>
+        <jsog.version>1.1.1</jsog.version>
         <hibernate.version>5.2.15.Final</hibernate.version>
         <sqlserver.version>6.4.0.jre8</sqlserver.version>
         <sentry.version>1.7.2</sentry.version>
@@ -54,6 +55,12 @@
             <version>${jersey.jackson.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.voodoodyne.jackson.jsog</groupId>
+            <artifactId>jackson-jsog</artifactId>
+            <version>${jsog.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>

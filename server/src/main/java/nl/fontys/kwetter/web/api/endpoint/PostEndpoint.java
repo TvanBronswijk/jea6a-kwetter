@@ -8,21 +8,15 @@ import nl.fontys.kwetter.service.da.PostService;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 @Path("posts")
 @Stateless
 public class PostEndpoint extends BaseEndpoint {
-
-    @Context
-    private UriInfo uriInfo;
-    @Inject
-    private PostService postService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -50,38 +44,45 @@ public class PostEndpoint extends BaseEndpoint {
     @POST
     @JwtNeeded
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(Post post) {
+    public Response create(@HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader, Post post) {
+        post.setUser(user(authHeader));
+        post.setLikes(new HashSet<>());
         Post result = postService.create(post);
         URI location = uriInfo.getBaseUriBuilder().path(String.format("%s", result.getId())).build();
-        return Response.created(location).build();
+        return created(location, result);
     }
 
-    @PUT
+    @PATCH
     @JwtNeeded
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response update(Post post) {
-        postService.update(post);
-        return ok();
+    public Response update(@HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader, Post post) {
+        if(postService.get(post.getId()).getUser() == user(authHeader)) {
+            postService.update(post);
+            return ok();
+        }
+        return unauthorized();
     }
 
     @DELETE
     @JwtNeeded
     @Path("{id}")
-    public Response delete(@PathParam("id") Long id) {
-        Post deletePost = new Post();
-        deletePost.setId(id);
-        postService.delete(deletePost);
-        return ok();
+    public Response delete(@HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader, @PathParam("id") Long id) {
+        Post post = postService.get(id);
+        if(post.getUser() == user(authHeader)) {
+            postService.delete(post);
+            return ok();
+        }
+        return unauthorized();
     }
 
-    @PUT
+    @PATCH
     @JwtNeeded
     @Path("{id}/like")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response like(@PathParam("id") Long id, User user) {
+    public Response like(@HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader, @PathParam("id") Long id) {
         Post post = postService.get(id);
-        post.like(user);
+        post.like(user(authHeader));
         postService.update(post);
-        return ok();
+        return ok(post);
     }
 }

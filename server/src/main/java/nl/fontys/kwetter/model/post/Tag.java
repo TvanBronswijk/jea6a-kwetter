@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.model.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import nl.fontys.kwetter.model.Model;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Tag implements Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

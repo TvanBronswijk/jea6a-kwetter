@@ -3,6 +3,7 @@ package nl.fontys.kwetter.service.auth;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import nl.fontys.kwetter.model.auth.Token;
 import nl.fontys.kwetter.model.user.Role;
 import nl.fontys.kwetter.model.user.User;
@@ -32,6 +33,13 @@ public class JsonWebTokenService {
                 .withClaim("isAdmin", user.isAdmin())
                 .sign(algorithm);
         return new Token(token);
+    }
+
+    public static DecodedJWT parseToken(Token token)
+            throws UnsupportedEncodingException, JWTVerificationException {
+
+        Algorithm algorithm = Algorithm.HMAC256(KEY);
+        return JWT.decode(token.getToken());
     }
 
     public static void verifyToken(Token token)

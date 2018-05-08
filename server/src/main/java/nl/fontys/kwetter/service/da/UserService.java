@@ -15,7 +15,9 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,5 +53,13 @@ public class UserService extends CrudService<User> {
 
     public List<User> getAll() {
         return users.readAll();
+    }
+
+    public Set<User> getFollowers(String username) {
+        return new HashSet<User>(users.readFollowersFromUser(username));
+    }
+
+    public Set<User> getFollowing(String username) {
+        return new HashSet<User>(users.readFollowingFromUser(username));
     }
 }

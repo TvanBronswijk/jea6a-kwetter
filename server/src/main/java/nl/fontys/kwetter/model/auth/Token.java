@@ -1,5 +1,8 @@
 package nl.fontys.kwetter.model.auth;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Token {
     String token;
 

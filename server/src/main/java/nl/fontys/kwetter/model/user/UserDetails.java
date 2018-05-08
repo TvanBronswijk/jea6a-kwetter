@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import nl.fontys.kwetter.model.Model;
 
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDetails implements Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

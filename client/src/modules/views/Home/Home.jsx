@@ -12,37 +12,63 @@ class Home extends Component {
             isLoggedIn: AuthTokenService.loggedIn(),
             ready: false,
             data: null,
+            reply: null,
+            err: null,
         }
+    }
+
+    handleChange(e) {
+        this.setState(
+            {
+                [e.target.name]: e.target.value
+            }
+        )
     }
 
     componentDidMount() {
         this.fetchPosts();
     }
 
-    fetchPosts(){
+    fetchPosts() {
         AuthTokenService.fetch('/api/posts')
             .then((posts) => {
+                posts.reverse();
                 this.setState({data: posts, ready: true});
                 return Promise.resolve(posts);
             });
     }
 
-    postPost(){
-        let body = {
-          content: null,
 
-        };
-        AuthTokenService.fetch(`/api/posts`, {
-            method: 'POST',
-            body: body,
-        }).then(result => {
-            return Promise.resolve(result);
-        });
+    async handleSubmit() {
+        const {reply} = this.state;
+        let body = JSON.stringify({content: reply});
+        try {
+            await AuthTokenService.fetch(`/api/posts`, {
+                method: 'POST',
+                body: body,
+            }).then(result => {
+                return Promise.resolve(result);
+            });
+            window.location.reload();
+        } catch (e) {
+            console.log(e);
+            this.setState({err: e});
+        }
     }
 
-    handleSubmit() {
-
-        window.location.reload();
+    async onLike(data) {
+        const {id} = data;
+        try {
+            await AuthTokenService.fetch(`/api/posts/${id}/like`, {
+                method: 'PATCH'
+            }).then(result => {
+                return Promise.resolve(result);
+            });
+            window.location.reload();
+        } catch (e) {
+            console.log(e);
+            this.setState({err: e});
+        }
     }
 
     //RENDERING
@@ -59,12 +85,15 @@ class Home extends Component {
         return <Post.Group>
             <Header as='h3' dividing>Kwets</Header>
             {
-                isLoggedIn ? <Post.Reply /> : false
+                isLoggedIn ? <div>
+                        <Post.Reply name='reply' onChange={this.handleChange.bind(this)} onClick={this.handleSubmit.bind(this)}/>
+                        <br/>
+                        <br/>
+                    </div>
+                    : false
             }
-            <br/>
-            <br/>
             {
-                data ? data.map((post, i) => <Post key={i} data={post}/>) : false
+                data ? data.map((post, i) => <Post key={i} data={post} like={isLoggedIn} onLike={this.onLike.bind(this)}/>) : false
             }
         </Post.Group>
     }

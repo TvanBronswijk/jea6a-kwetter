@@ -1,18 +1,19 @@
 package nl.fontys.kwetter.model.post;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.fontys.kwetter.model.Model;
 import nl.fontys.kwetter.model.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Post implements Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,15 +24,17 @@ public class Post implements Model {
     private User user;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="post_likes")
     @JsonIgnore
-    private Collection<User> likes;
+    private Set<User> likes;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="post_mentions")
     @JsonIgnore
-    private Collection<User> mentions;
+    private Set<User> mentions;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private Collection<Tag> tags;
+    private Set<Tag> tags;
 
     @NotNull
     private String content;
@@ -45,7 +48,7 @@ public class Post implements Model {
         this.user = user;
         this.content = content;
         this.timestamp = timestamp;
-        tags = new ArrayList<>();
+        tags = new HashSet<>();
     }
 
     @Override
@@ -73,24 +76,29 @@ public class Post implements Model {
         this.timestamp = timestamp;
     }
 
-    public Collection<Tag> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(Collection<Tag> tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
-    public Collection<User> getLikes() {
+    public Set<User> getLikes() {
         return likes;
     }
 
-    public void setLikes(Collection<User> likes) {
+    public void setLikes(Set<User> likes) {
         this.likes = likes;
     }
 
     public void like(User user) {
         likes.add(user);
+    }
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    public int getLikeCount(){
+        return likes.size();
     }
 
     public User getUser() {
@@ -105,7 +113,7 @@ public class Post implements Model {
         return mentions;
     }
 
-    public void setMentions(Collection<User> mentions) {
+    public void setMentions(Set<User> mentions) {
         this.mentions = mentions;
     }
 }

@@ -34,7 +34,7 @@ class UserBar extends Component {
     render() {
         const {ready, user} = this.state;
         return <div className="userbar-container">
-            { ready ? <User data={user} followed={true}/> : <PrefabLoader/> }
+            { ready ? <User data={user} followed={true} loggedInUser={user}/> : <PrefabLoader/> }
         </div>;
     }
 }

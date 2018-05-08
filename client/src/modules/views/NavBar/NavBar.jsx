@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input, Menu} from "semantic-ui-react";
+import {Icon, Input, Menu} from "semantic-ui-react";
 import NavBarLogin from "./NavBarLogin";
 import NavBarLogout from "./NavBarLogout";
 import AuthTokenService from "../../../services/auth/AuthTokenService";
@@ -18,11 +18,20 @@ class NavBar extends Component {
     render() {
         const {isLoggedIn} = this.state;
         return <Menu borderless stackable inverted>
-            <Menu.Item as={'a'} href={"/"} header>Kwetter</Menu.Item>
+            <Menu.Item as='a' href="/" header>Kwetter</Menu.Item>
             <Menu.Item>
                 <Input icon='search' placeholder="Search..."/>
             </Menu.Item>
-            { isLoggedIn ? <NavBar.Logout/> : <NavBar.Login/>}
+            <Menu.Menu>
+                <Menu.Item as='a' href='/'><Icon name='home'/>Home</Menu.Item>
+                {isLoggedIn
+                    ? <Menu.Item as='a' href={'/profile/' + AuthTokenService.getProfile().username}>
+                        <Icon name='user circle'/>My Profile
+                    </Menu.Item>
+                    : false
+                }
+            </Menu.Menu>
+            {isLoggedIn ? <NavBar.Logout/> : <NavBar.Login/>}
         </Menu>;
     }
 }

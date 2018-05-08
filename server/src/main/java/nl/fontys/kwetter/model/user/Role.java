@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import nl.fontys.kwetter.model.Model;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Role implements Model {
 
     public static final String USER = "User";
