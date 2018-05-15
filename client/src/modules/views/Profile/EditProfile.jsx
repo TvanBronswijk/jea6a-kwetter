@@ -11,6 +11,7 @@ class EditProfile extends Component {
         this.state = {
             ready: false,
             user: null,
+            redirect: false,
         }
     }
 
@@ -53,17 +54,17 @@ class EditProfile extends Component {
             }).then(result => {
                 return Promise.resolve(result);
             });
-            window.location.reload();
+            this.setState({redirect: true});
         } catch (e) {
             console.log(e);
-            this.setState({err: e});
+            this.setState({err: e, redirect: true});
         }
     }
 
     //RENDERING
     render() {
-        const { user, ready, err } = this.state;
-        if(err){
+        const { user, ready, redirect } = this.state;
+        if(redirect){
             return <Redirect to='/'/>
         }
         return <Container>

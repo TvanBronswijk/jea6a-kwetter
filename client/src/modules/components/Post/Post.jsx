@@ -9,15 +9,22 @@ class Post extends Component {
     static Group = PostGroup;
     static Reply = PostReply;
 
-    onClick() {
+    onLike() {
         const {data, onLike} = this.props;
         if(onLike) {
             onLike(data);
         }
     }
 
+    onDelete() {
+        const {data, onDelete} = this.props;
+        if(onDelete) {
+            onDelete(data);
+        }
+    }
+
     render() {
-        const { data, like } = this.props;
+        const { data, likable, deletable } = this.props;
         return <Comment>
             <Comment.Avatar src={data.user.userDetails ? data.user.userDetails.imageURL : false} />
             <Comment.Content>
@@ -30,7 +37,8 @@ class Post extends Component {
                     <span>Likes: {data.likeCount}</span>
                 </Comment.Metadata>
                 <Comment.Actions>
-                    { like ? <Comment.Action icon='like' basic compact size='tiny' as={Button} onClick={this.onClick.bind(this)} label='Like' /> : false }
+                    { likable ? <Comment.Action icon='like' basic compact size='tiny' as={Button} onClick={this.onLike.bind(this)} label='Like' /> : false }
+                    { deletable ? <Comment.Action icon='trash' basic compact size='tiny' as={Button} onClick={this.onDelete.bind(this)} label='Delete' /> : false }
                 </Comment.Actions>
             </Comment.Content>
         </Comment>;

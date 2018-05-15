@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import User from "../../components/User/User";
 import AuthTokenService from "../../../services/auth/AuthTokenService";
 import PrefabLoader from "../../components/Loader/PrefabLoader";
-import {Card, Container, Header, Item} from "semantic-ui-react";
+import {Card, Container, Header} from "semantic-ui-react";
 import Post from "../../components/Post/Post";
 import Follow from "../../components/User/Follow";
 
@@ -53,6 +52,22 @@ class MyProfile extends Component {
             });
     }
 
+    async onDelete(data) {
+        const {id} = data;
+        try {
+            await AuthTokenService.fetch(`/api/posts/${id}`, {
+                method: 'DELETE'
+            }).then(result => {
+                return Promise.resolve(result);
+            });
+            this.fetchPosts();
+        } catch (e) {
+            console.log(e);
+            this.setState({err: e});
+            this.fetchPosts();
+        }
+    }
+
     //RENDERING
     render() {
         const {ready, followers, following, posts} = this.state;
@@ -80,7 +95,7 @@ class MyProfile extends Component {
                     <Post.Group>
                         <Header as='h3' dividing>Kwets</Header>
                         {
-                            posts ? posts.map((post, i) => <Post key={i} data={post}/>) : false
+                            posts ? posts.map((post, i) => <Post key={i} data={post} deletable onDelete={this.onDelete.bind(this)}/>) : false
                         }
                     </Post.Group>
                 </div>

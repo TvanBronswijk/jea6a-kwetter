@@ -12,7 +12,7 @@ class Home extends Component {
             isLoggedIn: AuthTokenService.loggedIn(),
             ready: false,
             data: null,
-            reply: null,
+            reply: '',
             err: null,
         }
     }
@@ -49,7 +49,8 @@ class Home extends Component {
             }).then(result => {
                 return Promise.resolve(result);
             });
-            window.location.reload();
+            this.setState({reply: '', ready: false});
+            this.fetchPosts();
         } catch (e) {
             console.log(e);
             this.setState({err: e});
@@ -64,10 +65,12 @@ class Home extends Component {
             }).then(result => {
                 return Promise.resolve(result);
             });
-            window.location.reload();
+            this.setState({ready: false});
+            this.fetchPosts();
         } catch (e) {
             console.log(e);
-            this.setState({err: e});
+            this.setState({err: e, ready: false});
+            this.fetchPosts();
         }
     }
 
@@ -93,7 +96,7 @@ class Home extends Component {
                     : false
             }
             {
-                data ? data.map((post, i) => <Post key={i} data={post} like={isLoggedIn} onLike={this.onLike.bind(this)}/>) : false
+                data ? data.map((post, i) => <Post key={i} data={post} likable={isLoggedIn} onLike={this.onLike.bind(this)}/>) : false
             }
         </Post.Group>
     }

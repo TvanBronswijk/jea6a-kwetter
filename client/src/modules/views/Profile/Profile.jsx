@@ -4,7 +4,6 @@ import AuthTokenService from "../../../services/auth/AuthTokenService";
 import PrefabLoader from "../../components/Loader/PrefabLoader";
 import {Container} from "semantic-ui-react";
 import MyProfile from "./MyProfile";
-import {Redirect} from "react-router";
 
 class Profile extends Component {
     constructor(props) {
@@ -27,7 +26,8 @@ class Profile extends Component {
             }).then(result => {
                 return Promise.resolve(result);
             });
-            window.location.reload();
+            this.setState({ready: false});
+            this.fetchUser();
         } catch (e) {
             console.log(e);
             this.setState({err: e});
@@ -58,7 +58,8 @@ class Profile extends Component {
         }
         return <Container>
             {ready
-                ? <User data={user} loggedInUser={{username: username}} onFollow={this.onFollow.bind(this)} />
+                ? <User data={user} loggedInUser={{username: username}} onFollow={this.onFollow.bind(this)}
+                        followed={user.followers.some(follower => follower.username === username)} />
                 : <PrefabLoader/>}
         </Container>;
     }
