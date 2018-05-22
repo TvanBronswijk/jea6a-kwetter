@@ -28,7 +28,6 @@ class Home extends Component {
     componentDidMount() {
         this.fetchPosts();
         this.subscribe();
-
     }
 
     subscribe() {
@@ -38,12 +37,12 @@ class Home extends Component {
             console.log(e);
             this.fetchPosts();
         };
+        console.log(source.readyState);
     }
 
     fetchPosts() {
         const { query } = this.props;
         if(query) {
-            console.log("Query");
             AuthTokenService.fetch( `/api/posts/search?query=${query}`)
                 .then((posts) => {
                     posts.reverse();
@@ -51,7 +50,6 @@ class Home extends Component {
                     return Promise.resolve(posts);
                 });
         } else {
-            console.log("All");
             AuthTokenService.fetch('/api/posts')
                 .then((posts) => {
                     posts.reverse();

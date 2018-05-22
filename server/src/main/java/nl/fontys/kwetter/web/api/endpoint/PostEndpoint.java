@@ -78,7 +78,9 @@ public class PostEndpoint extends BaseEndpoint {
         post.setUser(user(authHeader));
         post.setLikes(new HashSet<>());
         Post result = postService.create(post);
-        ((Runnable) () -> sseBroadcaster.broadcast(sse.newEvent("refresh"))).run();
+
+        sseBroadcaster.broadcast(sse.newEvent(String.format("refresh%s", result.getId().toString())));
+
         URI location = uriInfo.getBaseUriBuilder().path(String.format("%s", result.getId())).build();
 
         Map<String, URI> locations = new HashMap<>();

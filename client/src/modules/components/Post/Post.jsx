@@ -34,7 +34,7 @@ class Post extends Component {
                         <a key={i} href={`/profile/${user.username}`}>
                             @{match}
                         </a>)
-                    : (<span>@{match}</span>);
+                    : (<span key={i}>@{match}</span>);
             }
         );
     }
