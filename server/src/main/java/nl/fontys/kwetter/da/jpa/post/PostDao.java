@@ -28,4 +28,12 @@ public class PostDao extends DataAccessBase<Post> implements PostDa {
         query.setParameter("user_id", userId);
         return query.getResultList();
     }
+
+    @Override
+    public List<Post> search(String query) {
+        TypedQuery<Post> queryObj = entityManager.createQuery("SELECT p FROM Post p WHERE " +
+                "LOWER(p.content) LIKE CONCAT('%', LOWER(:query), '%')", Post.class);
+        queryObj.setParameter("query", query);
+        return queryObj.getResultList();
+    }
 }

@@ -30,12 +30,25 @@ class Home extends Component {
     }
 
     fetchPosts() {
-        AuthTokenService.fetch('/api/posts')
-            .then((posts) => {
-                posts.reverse();
-                this.setState({data: posts, ready: true});
-                return Promise.resolve(posts);
-            });
+        console.log(JSON.stringify(this.props));
+        const { query } = this.props;
+        if(query) {
+            console.log("Query");
+            AuthTokenService.fetch( `/api/posts/search?query=${query}`)
+                .then((posts) => {
+                    posts.reverse();
+                    this.setState({data: posts, ready: true});
+                    return Promise.resolve(posts);
+                });
+        }else {
+            console.log("All");
+            AuthTokenService.fetch('/api/posts')
+                .then((posts) => {
+                    posts.reverse();
+                    this.setState({data: posts, ready: true});
+                    return Promise.resolve(posts);
+                });
+        }
     }
 
 

@@ -8,4 +8,5 @@ import java.util.List;
 public interface PostDa extends Crud<Post> {
     List<Post> readAll();
     List<Post> readByUserId(Long userId);
+    List<Post> search(String query);
 }

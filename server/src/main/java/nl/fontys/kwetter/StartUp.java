@@ -61,7 +61,7 @@ public class StartUp {
 
         //First Post
         Post post = new Post(firstUser,
-                "This is the first post on Kwetter! #first",
+                "@admin This is the first post on Kwetter! #first",
                 new Date());
         postService.create(post);
 

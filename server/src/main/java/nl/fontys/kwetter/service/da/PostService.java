@@ -5,6 +5,7 @@ import nl.fontys.kwetter.da.inf.post.PostDa;
 import nl.fontys.kwetter.da.inf.post.TagDa;
 import nl.fontys.kwetter.model.post.Post;
 import nl.fontys.kwetter.model.post.Tag;
+import nl.fontys.kwetter.service.helper.MentionService;
 import nl.fontys.kwetter.service.helper.TagParser;
 
 import javax.ejb.Stateless;
@@ -21,6 +22,8 @@ public class PostService extends CrudService<Post>{
     private PostDa posts;
     @Inject
     private TagParser tagParser;
+    @Inject
+    private MentionService mentionService;
 
 
     @Override
@@ -31,9 +34,14 @@ public class PostService extends CrudService<Post>{
     @Override
     public Post create(Post post) {
         post.setTimestamp(new Date());
+        post.setMentions(mentionService.parseString(post.getContent()));
         post.setTags(tagParser.parseString(post.getContent()));
         posts.create(post);
         return post;
+    }
+
+    public List<Post> search(String query) {
+        return posts.search(query);
     }
 
     public List<Post> getAll() {

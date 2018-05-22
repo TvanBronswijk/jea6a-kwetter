@@ -23,4 +23,9 @@ public class PostList extends TestDataAccessBase<Post> implements PostDa {
         result.removeAll(Collections.singleton(null));
         return result.stream().filter(p -> p.getUser().getId().equals(userId)).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Post> search(String query) {
+        return null;
+    }
 }

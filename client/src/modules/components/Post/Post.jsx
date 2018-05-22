@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import reactStringReplace from "react-string-replace";
 import {Button, Comment} from "semantic-ui-react";
 import PostGroup from "./PostGroup";
 import Moment from "react-moment";
@@ -23,6 +24,21 @@ class Post extends Component {
         }
     }
 
+    content(data) {
+        return reactStringReplace(data.content, /@([a-zA-Z0-9_]+)/,
+            (match, i) => {
+                const user = data.mentions.find(user => {
+                    return user.username === match;
+                });
+                return user ? (
+                        <a key={i} href={`/profile/${user.username}`}>
+                            @{match}
+                        </a>)
+                    : (<span>@{match}</span>);
+            }
+        );
+    }
+
     render() {
         const { data, likable, deletable } = this.props;
         return <Comment>
@@ -32,7 +48,7 @@ class Post extends Component {
                 <Comment.Metadata>
                     <Moment format="dddd, DD MMM YYYY HH:mm" unix>{data.timestamp/1000}</Moment>
                 </Comment.Metadata>
-                <Comment.Text>{data.content}</Comment.Text>
+                <Comment.Text>{this.content(data)}</Comment.Text>
                 <Comment.Metadata>
                     <span>Likes: {data.likeCount}</span>
                 </Comment.Metadata>

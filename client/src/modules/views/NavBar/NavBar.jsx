@@ -15,12 +15,20 @@ class NavBar extends Component {
         };
     }
 
+    onChange(e) {
+        const {onQuery} = this.props;
+        if(onQuery){
+            onQuery(e.target.value);
+        }
+    }
+
     render() {
         const {isLoggedIn} = this.state;
+
         return <Menu borderless stackable inverted>
             <Menu.Item as='a' href="/" header>Kwetter</Menu.Item>
             <Menu.Item>
-                <Input icon='search' placeholder="Search..."/>
+                <Input icon='search' onChange={this.onChange.bind(this)} placeholder="Search..."/>
             </Menu.Item>
             <Menu.Menu>
                 <Menu.Item as='a' href='/'><Icon name='home'/>Home</Menu.Item>

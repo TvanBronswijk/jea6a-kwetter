@@ -30,7 +30,6 @@ public class Post implements Model {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="post_mentions")
-    @JsonIgnore
     private Set<User> mentions;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)

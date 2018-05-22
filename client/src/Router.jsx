@@ -12,7 +12,7 @@ class Router extends Component {
             <BrowserRouter>
                 <div className="page-container">
                     <Route exact path='/'
-                           component={(props) => <Home {...props} />} />
+                           component={(props) => <Home query={this.props.query} {...props} />} />
 
                     <Route exact path='/me/edit'
                            component={({ props }) => <EditProfile {...props} />} />

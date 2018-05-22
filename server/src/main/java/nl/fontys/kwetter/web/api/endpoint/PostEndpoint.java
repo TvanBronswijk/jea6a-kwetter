@@ -34,6 +34,14 @@ public class PostEndpoint extends BaseEndpoint {
     }
 
     @GET
+    @Path("/search")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchTweets(@QueryParam("query") String query) {
+        Collection<Post> content = postService.search(query);
+        return ok(content);
+    }
+
+    @GET
     @Path("user/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFromUser(@PathParam("id") Long id) {
