@@ -22,7 +22,12 @@ public class UserDao extends DataAccessBase<User> implements UserDa {
     public User read(String username) throws NoResultException {
         TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
         query.setParameter("username", username);
-        return query.getSingleResult();
+
+        List<User> result = query.getResultList();
+        if(result.isEmpty()){
+            return null;
+        }
+        return result.get(0);
     }
 
     @Override

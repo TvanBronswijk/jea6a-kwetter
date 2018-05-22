@@ -5,18 +5,29 @@ import nl.fontys.kwetter.model.post.Post;
 import nl.fontys.kwetter.model.user.User;
 import nl.fontys.kwetter.service.da.PostService;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import javax.ws.rs.sse.Sse;
+import javax.ws.rs.sse.SseBroadcaster;
+import javax.ws.rs.sse.SseEventSink;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 
 @Path("posts")
 @Stateless
 public class PostEndpoint extends BaseEndpoint {
+
+    @Context
+    private Sse sse;
+    private volatile SseBroadcaster sseBroadcaster;
+
+    @PostConstruct
+    public void init(){
+        this.sseBroadcaster = sse.newBroadcaster();
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -30,7 +41,18 @@ public class PostEndpoint extends BaseEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("id") Long id) {
         Post content = postService.get(id);
-        return ok(content);
+
+        Map<String, URI> locations = new HashMap<>();
+        locations.put("like", uriInfo.getBaseUriBuilder()
+                .path(PostEndpoint.class)
+                .path(PostEndpoint.class, "like")
+                .build(content.getId()));
+        locations.put("delete", uriInfo.getBaseUriBuilder()
+                .path(PostEndpoint.class)
+                .path(PostEndpoint.class, "delete")
+                .build(content.getId()));
+
+        return ok(content, locations);
     }
 
     @GET
@@ -56,8 +78,19 @@ public class PostEndpoint extends BaseEndpoint {
         post.setUser(user(authHeader));
         post.setLikes(new HashSet<>());
         Post result = postService.create(post);
+        ((Runnable) () -> sseBroadcaster.broadcast(sse.newEvent("refresh"))).run();
         URI location = uriInfo.getBaseUriBuilder().path(String.format("%s", result.getId())).build();
-        return created(location, result);
+
+        Map<String, URI> locations = new HashMap<>();
+        locations.put("like", uriInfo.getBaseUriBuilder()
+                .path(PostEndpoint.class)
+                .path(PostEndpoint.class, "like")
+                .build(result.getId()));
+        locations.put("delete", uriInfo.getBaseUriBuilder()
+                .path(PostEndpoint.class)
+                .path(PostEndpoint.class, "delete")
+                .build(result.getId()));
+        return created(location, result, locations);
     }
 
     @PATCH
@@ -66,7 +99,18 @@ public class PostEndpoint extends BaseEndpoint {
     public Response update(@HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader, Post post) {
         if(postService.get(post.getId()).getUser() == user(authHeader)) {
             postService.update(post);
-            return ok();
+
+            Map<String, URI> locations = new HashMap<>();
+            locations.put("like", uriInfo.getBaseUriBuilder()
+                    .path(PostEndpoint.class)
+                    .path(PostEndpoint.class, "like")
+                    .build(post.getId()));
+            locations.put("delete", uriInfo.getBaseUriBuilder()
+                    .path(PostEndpoint.class)
+                    .path(PostEndpoint.class, "delete")
+                    .build(post.getId()));
+
+            return ok(post, locations);
         }
         return unauthorized();
     }
@@ -92,5 +136,12 @@ public class PostEndpoint extends BaseEndpoint {
         post.like(user(authHeader));
         postService.update(post);
         return ok(post);
+    }
+
+    @GET
+    @Path("subscribe")
+    @Produces(MediaType.SERVER_SENT_EVENTS)
+    public void subscribe(@Context SseEventSink eventSink, @Context Sse sse) {
+        sseBroadcaster.register(eventSink);
     }
 }

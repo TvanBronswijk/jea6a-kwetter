@@ -27,10 +27,20 @@ class Home extends Component {
 
     componentDidMount() {
         this.fetchPosts();
+        this.subscribe();
+
+    }
+
+    subscribe() {
+        const source = new EventSource("http://localhost/api/posts/subscribe");
+        console.log("Subscribed to api/posts");
+        source.onmessage = e => {
+            console.log(e);
+            this.fetchPosts();
+        };
     }
 
     fetchPosts() {
-        console.log(JSON.stringify(this.props));
         const { query } = this.props;
         if(query) {
             console.log("Query");
@@ -40,7 +50,7 @@ class Home extends Component {
                     this.setState({data: posts, ready: true});
                     return Promise.resolve(posts);
                 });
-        }else {
+        } else {
             console.log("All");
             AuthTokenService.fetch('/api/posts')
                 .then((posts) => {

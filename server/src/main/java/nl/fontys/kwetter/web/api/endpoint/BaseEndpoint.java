@@ -17,6 +17,7 @@ import javax.ws.rs.core.UriInfo;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.util.Map;
 
 import static javax.ws.rs.core.Response.Status.*;
 
@@ -109,6 +110,21 @@ public abstract class BaseEndpoint {
     }
 
     /**
+     * Creates a {@link javax.ws.rs.core.Response} object with status 201 - CREATED and a body
+     * @return 200 - OK
+     */
+    protected <T> Response created(URI location, T entity, Map<String, URI> locations) {
+        Response.ResponseBuilder builder = Response.created(location)
+                .entity(entity);
+
+        for(Map.Entry<String, URI> pair : locations.entrySet()){
+            builder.link(pair.getValue(), pair.getKey());
+        }
+
+        return builder.build();
+    }
+
+    /**
      * Creates a {@link javax.ws.rs.core.Response} object with status 403 - FORBIDDEN
      * @return 401 - UNAUTHORIZED
      */
@@ -176,6 +192,21 @@ public abstract class BaseEndpoint {
         return Response.ok()
                 .entity(entity)
                 .build();
+    }
+
+    /**
+     * Creates a {@link javax.ws.rs.core.Response} object with status 200 - OK and a body
+     * @return 200 - OK
+     */
+    protected <T> Response ok(T entity, Map<String, URI> locations) {
+        Response.ResponseBuilder builder = Response.ok()
+                .entity(entity);
+
+        for(Map.Entry<String, URI> pair : locations.entrySet()){
+            builder.link(pair.getValue(), pair.getKey());
+        }
+
+        return builder.build();
     }
 
     /**
